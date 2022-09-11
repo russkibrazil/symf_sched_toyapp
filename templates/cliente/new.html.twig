@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Novo Cliente - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Criar cliente</h1>
+        
+            {{ include('cliente/_form.html.twig') }}
+            
+            <a class="btn btn-secondary" href="{{ path('agendamentos_index') }}">Cancelar</a>
+        </div>
+    </div>
+{% endblock %}

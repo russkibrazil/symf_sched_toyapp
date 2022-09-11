@@ -1,0 +1,61 @@
+{{ form_start(form) }}
+    <div class="form-group">
+        {{ form_label(form.servico) }}
+        {{ form_widget(form.servico, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted">{{ form_help(form.servico) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.servico) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.descricao) }}
+        {{ form_widget(form.descricao, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted">{{ form_help(form.descricao) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.descricao) }}
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col mr-3">
+            {{ form_label(form.valor) }}
+            {{ form_widget(form.valor, {'attr': {'class': 'form-control'}}) }}
+            <small class="form-text text-muted">{{ form_help(form.valor) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.valor) }}
+            </div>
+        </div>
+
+        <div class="form-group col">
+            {{ form_label(form.duracao) }}
+            {{ form_widget(form.duracao, {'attr': {'class': 'form-control'}}) }}
+            <small class="form-text text-muted">{{ form_help(form.duracao) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.duracao) }}
+            </div>
+        </div>
+
+    </div>
+    <div class="form-group">
+        {{ form_label(form.arquivoFoto) }}
+        {{ form_widget(form.arquivoFoto, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted">{{ form_help(form.arquivoFoto) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.arquivoFoto) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="submit" class="btn btn-success">{{ button_label|default('Salvar') }}</button>
+        </div>
+        <div class="col">
+            <a class="btn btn-secondary" href="{{ path('servicos_index') }}">Cancelar</a>
+        </div>
+        {% if include_delete is defined and include_delete == true %}
+            <div class="col">
+                {{ include('servicos/_delete_form.html.twig') }}
+            </div>
+        {% endif %}
+    </div>
+
+    {{ form_row(form._token)}}
+{{ form_end(form, {'render_rest': false}) }}

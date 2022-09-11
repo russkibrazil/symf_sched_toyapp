@@ -1,0 +1,155 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Funcionário - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Editar Funcionário</h1>
+
+            {{ form_start(form) }}
+    <div class="form-group">
+        {# {{ form_label(form.cpf) }}
+        {{ form_widget(form.cpf, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted">{{ form_help(form.cpf) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.cpf) }}
+        </div> #}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.nome) }}
+        {{ form_widget(form.nome, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted">{{ form_help(form.nome) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.nome) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted">{{ form_help(form.email) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.email) }}
+        </div>
+    </div>
+    {% if operacao == 'novo' %}
+        <div class="form-group">
+            {{ form_label(form.password) }}
+            {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+            <small class="form-text text-muted">{{ form_help(form.password) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.password) }}
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="form-row mb-5">
+
+        <div class="form-group col mr-3">
+            {{ form_label(form.telefone) }}
+            {{ form_widget(form.telefone, {'attr': {'class': 'form-control'}}) }}
+            <small class="form-text text-muted">{{ form_help(form.telefone) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.telefone) }}
+            </div>
+        </div>
+
+        <div class="form-group col mr-3">
+            {{ form_label(form.nascimento) }}
+            {{ form_widget(form.nascimento, {'attr': {'class': 'form-control'}}) }}
+            <small class="form-text text-muted">{{ form_help(form.nascimento) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.nascimento) }}
+            </div>
+        </div>
+        <div class="form-group col">
+            {{ form_label(form.ctps.ctps) }}
+            {{ form_widget(form.ctps.ctps, {'attr': {'class': 'form-control'}}) }}
+            <small class="form-text text-muted">{{ form_help(form.ctps) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.ctps) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.endereco) }}
+        {{ form_widget(form.endereco, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted">{{ form_help(form.endereco) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.endereco) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.cidade) }}
+        {{ form_widget(form.cidade, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted">{{ form_help(form.cidade) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.cidade) }}
+        </div>
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group col mr-3 mb-3">
+            {{ form_label(form.uf) }}
+            {{ form_widget(form.uf, {'attr': {'class': 'form-control'}}) }}
+            <small class="form-text text-muted">{{ form_help(form.uf) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.uf) }}
+            </div>
+        </div>
+
+        <div class="form-group col mr-3 mb-3">
+            {{ form_label(form.cep) }}
+            {{ form_widget(form.cep, {'attr': {'class': 'form-control'}}) }}
+            <small class="form-text text-muted">{{ form_help(form.cep) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.cep) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.arquivoFoto) }}
+            {{ form_widget(form.arquivoFoto, {'attr': {'class': 'form-control'}}) }}
+            <small class="form-text text-muted">{{ form_help(form.arquivoFoto) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.arquivoFoto) }}
+            </div>
+        </div>
+        {{ form_row(form._token) }}
+
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="submit" class="btn btn-success btn-lg">{{ button_label|default('Salvar') }}</button>
+        </div>
+    </div>
+
+{{ form_end(form, {'render_rest': false}) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-secondary" href="{% if is_granted("ROLE_ADMIN") %}
+                {{ path('funcionario_index') }}
+            {% else %}
+                {{ path('home') }}
+            {% endif %}
+            ">Cancelar</a>
+
+            {% if is_granted("ROLE_ADMIN") %}
+                {{ include('funcionario/_delete_form.html.twig') }}
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('funcionario') }}
+{% endblock javascripts %}

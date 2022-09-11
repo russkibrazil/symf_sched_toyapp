@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de clientes - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Lista de clientes</h1>
+            <table class="table table-stripped table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Telefone</th>
+                        <th scope="col">Nascimento</th>
+                        <th scope="col">Forma pagto favorita</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for cliente in clientes %}
+                    <tr>
+                        <td>{{ cliente.nome }}</td>
+                        <td>{{ cliente.telefone }}</td>
+                        <td>{{ cliente.nascimento ? cliente.nascimento|date('d/m/Y') : '' }}</td>
+                        <td>{{ cliente.fpagamentoFav }}</td>
+                        <td>
+                            <a class="btn btn-info" href="{{ path('cliente_show', {'cpf': cliente.cpf}) }}">Ver</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="12">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" href="{{ path('cliente_new') }}">Novo</a>
+        </div>
+    </div>
+{% endblock %}

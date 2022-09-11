@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+###> doctrine/doctrine-bundle ###
+  database:
+    # image: postgres:${POSTGRES_VERSION:-13}-alpine
+    # environment:
+    #   POSTGRES_DB: ${POSTGRES_DB:-app}
+    #   # You should definitely change the password in production
+    #   POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
+    #   POSTGRES_USER: ${POSTGRES_USER:-symfony}
+    # volumes:
+    #   - db-data:/var/lib/postgresql/data:rw
+    #   # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+    #   # - ./docker/db/data:/var/lib/postgresql/data:rw
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: iroko
+    volumes:
+       - iroko-mysql-data:/var/lib/mysql:rw
+###< doctrine/doctrine-bundle ###
+
+  php:
+    image: php:7.4-cli
+    depends_on:
+      - database
+    ports:
+      - "10080:80"
+    environment:
+      - DATABASE_URL="mysql://root:password@127.0.0.1:3306/iroko?serverVersion=5.7"
+    volumes:
+      - ./:/var/www/html
+    working_dir: /var/www/html
+    command: [sh -c "php bin/console doctrine:database:create", sh -c "php bin/console doctrine:migrations:migrate --no-iteraction", sh -c "php bin/console doctrine:fixture:load --no-interaction", sh -c "php bin/phpunit"]
+
+
+volumes:
+###> doctrine/doctrine-bundle ###
+  iroko-mysql-data:
+###< doctrine/doctrine-bundle ###

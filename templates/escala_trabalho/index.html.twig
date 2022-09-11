@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Turnos de trabalho - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Turnos de trabalho</h1>
+            <h2>{{ funcionario.pessoa.nome }}</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="table table-stripped table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Dia</th>
+                        <th scope="col">Hora Início</th>
+                        <th scope="col">Hora Fim</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for escala_trabalho in escala_trabalhos %}
+                    <tr>
+                        <td>{% if escala_trabalho.diaSemana == 2 %}
+                            Segunda
+                        {% elseif escala_trabalho.diaSemana == 3 %}
+                            Terça
+                        {% elseif escala_trabalho.diaSemana == 4 %}
+                            Quarta
+                        {% elseif escala_trabalho.diaSemana == 5 %}
+                            Quinta
+                        {% elseif escala_trabalho.diaSemana == 6 %}
+                            Sexta
+                        {% elseif escala_trabalho.diaSemana == 7 %}
+                            Sábado
+                        {% elseif escala_trabalho.diaSemana == 1 %}
+                            Domingo
+                        {% elseif escala_trabalho.diaSemana == 8 %}
+                            Feriado
+                        {% endif %}</td>
+                        <td>{{ escala_trabalho.horaInicio ? escala_trabalho.horaInicio|date('H:i') : '' }}</td>
+                        <td>{{ escala_trabalho.horaFim ? escala_trabalho.horaFim|date('H:i') : '' }}</td>
+                        <td>
+                            <div class="row">
+                                <div class="col">
+                                    <a class="btn btn-primary" href="{{ path('escala_trabalho_edit', {'diaSemana': escala_trabalho.diaSemana, 'cnpj': escala_trabalho.cnpj.cnpj, 'nomeUsuario': funcionario.nomeUsuario}) }}">Editar</a>
+                                </div>
+                                <div class="col">
+                                    {% include "escala_trabalho/_delete_form.html.twig" %}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Nenhum horário cadastrado</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <a href="{{ path('funcionario_index') }}" class="btn btn-secondary">Voltar</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-primary" href="{{ path('escala_trabalho_new', {'nomeUsuario': funcionario.nomeUsuario}) }}">Novo</a>
+        </div>
+    </div>
+{% endblock %}

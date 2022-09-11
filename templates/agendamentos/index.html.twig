@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ titulo }} - {% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <h1>{{ titulo }}</h1>
+    </div>
+</div>
+<span
+    id="ajax"
+    data-ch="{{ path('agendamentos_index_chegada', {'id': 'valor'}) }}"
+    data-at="{{ path('agendamentos_index_atraso', {'id': 'valor'}) }}"
+    data-ca="{{ path('agendamentos_index_cancela', {'id': 'valor'}) }}"
+    data-fi="{{ path('agendamentos_index_concluir', {'id': 'valor'}) }}"
+    data-pg=""
+    data-rq="{{ path('agendamento_pagamento_request', {'id_agendamento': 'valor'}) }}"
+    data-es="{{ path('agendamento_pagamento_cancela_request_ajax', {'id_agendamento': 'valor'}) }}"
+>
+</span>
+
+<div class="row">
+    <div class="col"><h2 class="h5">Horário</h2></div>
+
+    {% if is_granted("ROLE_FUNCIONARIO") or is_granted("ROLE_ADMIN") or is_granted("ROLE_RECEPCAO") %}
+        <div class="col"><h2 class="h5">Cliente</h2></div>
+    {% endif %}
+
+    {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") or is_granted("ROLE_RECEPCAO") %}
+        <div class="col"><h2 class="h5">Atendido por</h2></div>
+    {% endif %}
+    <div class="col"></div>
+
+</div>
+
+{% for agendamento in agendamentos %}
+
+    <div class="row mb-4 agendamento-row" id="sid{{ agendamento.id }}">
+
+        <div class="col"> {# horario #}
+            <a href="{{ path('agendamentos_show', {'id': agendamento.id}) }}" class="text-decoration-none">{{ agendamento.horario ? agendamento.horario|date('d/m/y H:i') : '' }}</a>
+        </div>
+
+        {% if is_granted("ROLE_FUNCIONARIO") or is_granted("ROLE_ADMIN") or is_granted("ROLE_RECEPCAO") %}
+        <div class="col"> {# cliente #}
+            <p>{{ agendamento.cliente.pessoa.nome }}</p>
+        </div>
+
+        {% endif %}
+
+        {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") or is_granted("ROLE_RECEPCAO") %}
+            <div class="col"> {# funcionario #}
+                <p>{{ agendamento.funcionario.pessoa.nome }}</p>
+            </div>
+        {% endif %}
+
+        <div class="col">
+           {{ include('agendamentos/_actions_menu.html.twig') }}
+        </div>
+
+    </div>
+
+{% else %}
+    <div class="row">
+        <div class="col">
+            <h2 class="h4">Não existem agendamentos futuros.</h2>
+        </div>
+    </div>
+{% endfor %}
+
+<div class="row">
+    <div class="col">
+        <a
+            class="btn btn-primary"
+            href="{{ path('agendamentos_new_interactive') }}"
+        >Novo agendamento</a>
+    </div>
+</div>
+
+{# TOASTS #}
+<div
+    aria-live="polite"
+    aria-atomic="true"
+    style="position: fixed; bottom:0; right:0; min-height: 2px; min-width: 70px;"
+    id="toast-container"
+>
+    <div
+        style="position: absolute; right: 0; bottom: 0;"
+        id="toast-zone"
+    >
+
+    </div>
+</div>
+{# TOASTS #}
+
+{% include "agendamento_pagamento/_inLoco_payment_modal.html.twig" %}
+{% include "agendamento_pagamento/_reembolso_modal.html.twig" %}
+{% include "agendamentos/_cancelling_reason_modal.html.twig" %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('agendamentoIndex') }}
+{% endblock javascripts %}

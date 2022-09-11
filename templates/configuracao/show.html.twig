@@ -1,0 +1,152 @@
+{% from "macro/_documentos.html.twig" import maskCnpj %}
+{% from "macro/_cep.html.twig" import maskCep %}
+{% extends 'base.html.twig' %}
+
+{% block title %}Detalhes da empresa - {% endblock %}
+
+{% block body %}
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Detalhes da empresa</h1>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col">
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <th>CNPJ</th>
+                        <td>{{ maskCnpj(configuracao.cnpj) }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nome Empresa</th>
+                        <td>{{ configuracao.nomeEmpresa }}</td>
+                    </tr>
+                    <tr>
+                        <th>Política de bloqueio</th>
+                        <td> {% if configuracao.intervaloBloqueio|lower != "nunca" %}
+                            {{ configuracao.qtdeBloqueio }}
+                        {% endif %} {{ configuracao.intervaloBloqueio|lower }}</td>
+                    </tr>
+
+                    {% if configuracao.intervaloBloqueio|lower != "nunca" %}
+                        <tr>
+                            <th>Período de análise de conduta</th>
+                            <td>{{ configuracao.qtdeAnalise }} {{ configuracao.intervaloAnalise|lower }}</td>
+                        </tr>
+                        <tr>
+                            <th>Atrasos Tolerados</th>
+                            <td>{{ configuracao.atrasosTolerados }}</td>
+                        </tr>
+                        <tr>
+                            <th>Cancelamentos Tolerados</th>
+                            <td>{{ configuracao.cancelamentosTolerados }}</td>
+                        </tr>
+                    {% endif %}
+
+                    <tr>
+                        <th>Endereço</th>
+                        <td>{{ configuracao.endereco }}, {{ configuracao.cidade }} - {{ configuracao.uf }}</td>
+                    </tr>
+                    <tr>
+                        <th>CEP</th>
+                        <td>{{ maskCep(configuracao.cep) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <a class="btn btn-primary" href="{{ path('configuracao_edit_basico', {'cnpj': configuracao.cnpj}) }}">Editar ficha</a>
+
+            <a href="{{ path('configuracao_edit_bloqueio', {'cnpj': configuracao.cnpj}) }}" class="btn btn-primary">Editar bloqueios</a>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="h3">Horário de funcionamento</h2>
+
+            <table class="table table-borderless">
+                <thead></thead>
+                <tbody>
+                    {% for horario_trabalho in configuracao.horarioTrabalho %}
+                        <tr>
+                            <td>{% if horario_trabalho.diaSemana == 2 %}
+                                Segunda
+                            {% elseif horario_trabalho.diaSemana == 3 %}
+                                Terça
+                            {% elseif horario_trabalho.diaSemana == 4 %}
+                                Quarta
+                            {% elseif horario_trabalho.diaSemana == 5 %}
+                                Quinta
+                            {% elseif horario_trabalho.diaSemana == 6 %}
+                                Sexta
+                            {% elseif horario_trabalho.diaSemana == 7 %}
+                                Sábado
+                            {% elseif horario_trabalho.diaSemana == 1 %}
+                                Domingo
+                            {% elseif horario_trabalho.diaSemana == 8 %}
+                                Feriado
+                            {% endif %}</td>
+                            <td>{{ horario_trabalho.horaInicio ? horario_trabalho.horaInicio|date('H:i') : '' }}</td>
+                            <td>{{ horario_trabalho.horaFim ? horario_trabalho.horaFim|date('H:i') : '' }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td>
+                                Não há horários de funcionamento cadastrados. Para fazer os agendamentos, é crucial que eles estejam presentes.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <a class="btn btn-warning" href="{{ path('horario_trabalho_index', {'cnpj': configuracao.cnpj}) }}"> Editar Horário funcionamento</a>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <h2>Métodos de pagamento</h2>
+
+            {% for epp in configuracao.empresaProcessadorPagamentos %}
+                <div class="row">
+                    <div class="col">
+                        <p>{{ epp.processador }}</p>
+                    </div>
+                    <div class="col">
+                        <p>Parcelamento máximo no cartão: {{ epp.maxParcelasCartao }} parcelas</p>
+                        {% if epp.pix is defined and epp.pix != '' %}
+                            <p>Pix ativo</p>
+                        {% endif %}
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <a href="{{ path('empresa_pagamento_processador_edit', {'cnpj': configuracao.cnpj, 'processador': epp.processador}) }}" class="btn btn-secondary">Editar</a>
+                            </div>
+                            <div class="col">
+                                {% include "configuracao/processador_pagamento/_delete_form.html.twig" %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col">
+                        <p>Nenhuma carteira ou processador de pagamento cadastrado.</p>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <a href="{{ path('empresa_pagamento_processador_new', {'cnpj': configuracao.cnpj}) }}" class="btn btn-secondary">Novo Processador</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" href="{{ path('configuracao_edit', {'cnpj': configuracao.cnpj}) }}">Editar tudo</a>
+        </div>
+    </div>
+
+{% endblock %}

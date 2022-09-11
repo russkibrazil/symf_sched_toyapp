@@ -1,0 +1,21 @@
+{{ form_start(form) }}
+
+    <div class="form-group">
+        {{ form_label(form.forma_pagto) }}
+        {{ form_widget(form.forma_pagto, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted">{{ form_help(form.forma_pagto) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.forma_pagto) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.valor) }}
+        {{ form_widget(form.valor, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted">{{ form_help(form.valor) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.valor) }}
+        </div>
+    </div>
+
+    <button class="btn btn-success">{{ button_label|default('Salvar') }}</button>
+{{ form_end(form) }}

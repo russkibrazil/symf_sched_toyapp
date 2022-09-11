@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Criar Serviço - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Criar um serviço</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+                {{ include('servicos/_form.html.twig') }}
+            </div>
+    </div>
+{% endblock %}

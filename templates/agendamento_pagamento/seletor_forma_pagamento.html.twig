@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Selecione o método de pagamento - {% endblock %}
+
+{% block body %}
+    <div class="row mb-3">
+        <div class="col">
+            <h1>Selecione o método de pagamento</h1>
+        </div>
+    </div>
+    <div class="row align-items-end justify-content-around mb-4">
+        <div class="col">
+            <img class="img-fluid my-3 px-3 w-100" src="images/static/credit_card_re_blml.svg" style="min-width: 145px; max-height: 70px;">
+            <a href="{{ path('agendamento_pagamento_payment_mercadopago_card', {'id_agendamento': agendamento.id}) }}" class="btn btn-secondary btn-block stretched-link">Pagar com cartão</a>
+        </div>
+        <div class="col">
+            <img class="img-fluid my-3 px-3 w-100" src="images/static/logo_pix.svg" style="min-width: 145px; max-height: 70px;">
+            <a href="{{ path('agendamento_pagamento_payment_mercadopago_pix', {'id_agendamento': agendamento.id}) }}" class="{{ html_classes('btn', 'btn-secondary', 'btn-block', 'stretched-link', {
+                'disabled': (epp.pix is not defined or epp.pix == '')
+            }) }}">Pagar com PIX</a>
+        </div>
+        <div class="col">
+            <img class="img-fluid my-3 px-3 w-100" src="images/static/Online_banking_SVG.svg" alt="" style="min-width: 145px; max-height: 70px;">
+            <a href="#" class="btn btn-secondary btn-block disabled">Utilizar carteira</a>
+        </div>
+    </div>
+
+    <div class="alert alert-info" role="alert">
+        Esse pagamento será processado pelo Mercado Pago
+    </div>
+
+{% endblock %}

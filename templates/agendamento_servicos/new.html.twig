@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Novo Serviço no agendamento - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Novo Serviço no agendamento</h1>
+    
+            {{ include('agendamento_servicos/_form.html.twig') }}
+    
+            <a class="btn btn-secondary" href="{{ path('agendamentos_index') }}">Cancelar</a>
+        </div>
+    </div>
+{% endblock %}

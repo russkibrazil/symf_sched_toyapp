@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de horários de trabalho - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+
+            <h1>Lista de horários de trabalho</h1>
+            {# <h2>Empresa: {{ horario_trabalho.empresa.nome}}</h2> #}
+            <table class="table table-stripped table-borderless">
+                <thead>
+                    <tr>
+                        <th>Dia Semana</th>
+                        <th>Início</th>
+                        <th>Fim</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for horario_trabalho in horario_trabalhos %}
+                    <tr>
+                        {#<td>{{ horario_trabalho.diaSemana|date("l") }}</td>#}
+                        <td>{%- if horario_trabalho.diaSemana == 2 -%}
+                            Segunda
+                        {%- elseif horario_trabalho.diaSemana == 3 -%}
+                            Terça
+                        {%- elseif horario_trabalho.diaSemana == 4 -%}
+                            Quarta
+                        {%- elseif horario_trabalho.diaSemana == 5 -%}
+                            Quinta
+                        {%- elseif horario_trabalho.diaSemana == 6 -%}
+                            Sexta
+                        {%- elseif horario_trabalho.diaSemana == 7 -%}
+                            Sábado
+                        {%- elseif horario_trabalho.diaSemana == 1 -%}
+                            Domingo
+                        {%- elseif horario_trabalho.diaSemana == 8 -%}
+                            Feriado
+                        {% endif %}</td>
+                        <td>{{ horario_trabalho.horaInicio ? horario_trabalho.horaInicio|date('H:i') : '' }}</td>
+                        <td>{{ horario_trabalho.horaFim ? horario_trabalho.horaFim|date('H:i') : '' }}</td>
+                        <td>
+                            <div class="row">
+                                <div class="col">
+                                    <a class="btn btn-primary" href="{{ path('horario_trabalho_edit', {'diaSemana': horario_trabalho.diaSemana, 'cnpj': cnpj}) }}">Editar</a>
+                                </div>
+                                <div class="col">
+                                    {{ include('horario_trabalho/_delete_form.html.twig') }}
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">A empresa não tem horário de funcionamento cadastrado</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" href="{{ path('horario_trabalho_new', {'cnpj': cnpj}) }}">Novo</a>
+        </div>
+        <div class="col">
+            <a href="{{ path('configuracao_show', {'cnpj': cnpj }) }}" class="btn btn-secondary">Voltar para empresa</a>
+        </div>
+    </div>
+{% endblock %}

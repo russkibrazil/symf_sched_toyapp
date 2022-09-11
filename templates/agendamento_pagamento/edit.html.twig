@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit AgendamentoPagamento{% endblock %}
+
+{% block body %}
+    <h1>Edit AgendamentoPagamento</h1>
+
+    {{ include('agendamento_pagamento/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('agendamento_pagamento_index') }}">back to list</a>
+
+    {{ include('agendamento_pagamento/_delete_form.html.twig') }}
+{% endblock %}

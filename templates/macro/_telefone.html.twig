@@ -1,0 +1,9 @@
+{% macro maskTelefone(tel) %}
+    {% if tel|length == 11 %}
+        {{ "(#{tel|slice(0, 2)}) #{tel|slice(2, 5)} - #{tel|slice(7, 4)}" }}
+    {% else %}
+        {{ "(#{tel|slice(0, 2)}) #{tel|slice(2, 4)} - #{tel|slice(6, 4)}" }}
+    {% endif %}
+{% endmacro %}
+
+{% macro inputMaskTelefone() %}'mask': '(99) 9{4,5} - 9999'{% endmacro %}

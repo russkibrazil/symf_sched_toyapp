@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %}Iroko</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="container">
+            {{ include('header_menu.html.twig') }}
+        </div>
+
+        <div class="container">
+
+            {% for message in app.flashes('sucesso') %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <p>{{ message }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                </div>
+            {% endfor %}
+
+            {% for message in app.flashes('erro') %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <p>{{ message }}</p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            {% endfor %}
+
+        </div>
+        
+        <div class="container" style="margin-bottom: 150px;">
+            {% block body %}{% endblock %}
+        </div>
+        
+        <div class="invisible">
+            <input type="hidden" value="{{ app.session.get('corTexto') }}" name="baseInputsCor-corTexto" >
+            <input type="hidden" value="{{ app.session.get('corInput') }}" name="baseInputsCor-corInput">
+            <input type="hidden" value="{{ app.session.get('corLabel') }}" name="baseInputsCor-corLabel">
+            <input type="hidden" value="{{ app.session.get('corBoxes') }}" name="baseInputsCor-corBoxes">
+            <input type="hidden" value="{{ app.session.get('corFundo') }}" name="baseInputsCor-corFundo">
+        </div>
+        
+        <div class="container">
+            {% include "mobile_menu.html.twig" %}
+            {#<div class="fixed-bottom">
+                {% include "footer.html.twig" %}
+            </div>#}
+        </div>
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </body>
+</html>

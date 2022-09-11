@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de empresas - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Lista de empresas</h1>
+
+            <div class="table-responsive">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Endereço</th>
+                            <th scope="col">Cidade</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for configuracao in configuracaos %}
+                        <tr>
+                            <td>{{ configuracao.nomeEmpresa }}</td>
+                            <td>{{ configuracao.endereco }}</td>
+                            <td>{{ configuracao.cidade }} - {{ configuracao.uf }}</td>
+                            <td>
+                                <a class="btn btn-info" href="{{ path('configuracao_show', {'cnpj': configuracao.cnpj}) }}">Ver</a>
+                                <a class="btn btn-primary" href="{{ path('configuracao_edit', {'cnpj': configuracao.cnpj}) }}">Editar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="16">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+    {# <div class="row">
+        <a class="btn btn-primary" href="{{ path('configuracao_new') }}">Novo</a>
+    </div> #}
+{% endblock %}

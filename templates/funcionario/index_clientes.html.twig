@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Lista de funcionários - {% endblock title %}
+
+{% block body %}
+    <div class="row">
+        <div class="col mb-3">
+            <h1>Lista de funcionários</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-3">
+            <div class="card-group">
+                {% for row in funcionarios %}
+                    <div class="card">
+                        <img src="{{ vich_uploader_asset(row.cpfFuncionario, 'arquivoFoto') }}" class="img-fluid rounded-circle card-img-top" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ row.cpfFuncionario.pessoa.nome }}</h5>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a href="{{ path('home') }}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </div>
+{% endblock body %}

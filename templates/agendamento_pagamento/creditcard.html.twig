@@ -1,0 +1,163 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pagamento por cartão {% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col">
+			<h1>Pagamento via cartão</h1>
+		</div>
+	</div>
+	<span id="mercadopago-public"
+		data-public="{{ public_key }}"
+		data-process="{{ route_process }}"
+		data-fname="{{ form_name }}"
+		data-amount="{{ total_value }}"
+		data-description="{{ descricao_pagamento }}"
+	></span>
+
+	<div class="row">
+		{# <div class="col-4">
+			<img src="#" alt="">
+		</div> #}
+
+		<div class="col">
+		{{ form_start(form, {'attr': {'id': 'form_cc', 'novalidate': true, 'class': 'needs-validation'}}) }}
+		<div class="form-row">
+			<div class="form-group col-7">
+				{{ form_label(form.cardNumber) }}
+				{{ form_widget(form.cardNumber) }}
+				<div class="invalid-feedback">
+					{{ form_errors(form.cardNumber) }}
+				</div>
+			</div>
+
+            <div class="col">
+                <fieldset>
+                    <legend style="font-size: 1rem">Validade</legend>
+                    <div class="row no-gutters">
+                        <div class="col-5 m-0">
+                            {{ form_widget(form.cardExpirationMonth) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.cardExpirationMonth) }}
+                            </div>
+                        </div>
+                        <div class="col m-0">
+                            {{ form_widget(form.cardExpirationYear) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.cardExpirationYear) }}
+                            </div>
+                        </div>
+                    </div>
+                    {# <div class="invalid-feedback">
+                        {{ form_errors(form.cardExpirationMonth) }}
+                        {{ form_errors(form.cardExpirationYear) }}
+                    </div> #}
+                </fieldset>
+            </div>
+		</div>
+
+			{# <div class="form-group">
+				{{ form_label(form.cardExpirationDate) }}
+				{{ form_widget(form.cardExpirationDate) }}
+				<div class="invalid-feedback">
+					{{ form_errors(form.cardExpirationDate) }}
+				</div>
+			</div> #}
+
+		<div class="form-row">
+			<div class="form-group col-4">
+				{{ form_label(form.securityCode) }}
+				{{ form_widget(form.securityCode) }}
+				<div class="invalid-feedback">
+					{{ form_errors(form.securityCode) }}
+				</div>
+			</div>
+
+			<div class="form-group col">
+				{{ form_label(form.issuer) }}
+				{{ form_widget(form.issuer) }}
+				<div class="invalid-feedback">
+					{{ form_errors(form.issuer) }}
+				</div>
+			</div>
+		</div>
+
+			<div class="form-group">
+				{{ form_label(form.cardHolderName) }}
+				{{ form_widget(form.cardHolderName) }}
+				<div class="invalid-feedback">
+					{{ form_errors(form.cardHolderName) }}
+				</div>
+			</div>
+
+			<div class="form-group">
+				{{ form_label(form.cardHolderEmail) }}
+				{{ form_widget(form.cardHolderEmail) }}
+				<div class="invalid-feedback">
+					{{ form_errors(form.cardHolderEmail) }}
+				</div>
+			</div>
+
+			<div class="form-row">
+				<div class="form-group col-4">
+					{{ form_label(form.identificationType) }}
+					{{ form_widget(form.identificationType) }}
+					<div class="invalid-feedback">
+						{{ form_errors(form.identificationType) }}
+					</div>
+				</div>
+
+				<div class="form-group col">
+					{{ form_label(form.identificationNumber) }}
+					{{ form_widget(form.identificationNumber) }}
+					<div class="invalid-feedback">
+						{{ form_errors(form.identificationNumber) }}
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				{{ form_label(form.installments) }}
+				{{ form_widget(form.installments) }}
+				<div class="invalid-feedback">
+					{{ form_errors(form.installments) }}
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<div class="progress">
+					<progress class="progress-bar" value="0"></progress>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<button type="submit" id="pagar-btn" class="btn btn-success">Pagar</button>
+				</div>
+
+				<div class="col">
+                    <div class="dropdown">
+                        <button type="button" id="other-payments" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Outros métodos</button>
+                        <div class="dropdown-menu" aria-labelledby="other-payments">
+                            <button type="button" class="dropdown-item active">Cartão</button>
+                            <button type="button" class="dropdown-item" data-path="{{ has_pix }}">Pix</button>
+                            <button type="button" class="dropdown-item disabled">Carteira</button>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		{{ form_end(form) }}
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://sdk.mercadopago.com/js/v2"></script>
+	{{ parent() }}
+	{{ encore_entry_script_tags('creditcard_mp') }}
+{% endblock %}
+
+

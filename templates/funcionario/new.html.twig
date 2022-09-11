@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Novo Funcionário - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Novo Funcionário</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{ include('funcionario/_form.html.twig') }}
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-secondary" href="{{ path('funcionario_index') }}">Cancelar</a>
+        </div>
+    </div>
+{% endblock body %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('funcionario') }}
+{% endblock javascripts %}

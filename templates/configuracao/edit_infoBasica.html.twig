@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Empresa - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Editar Empresa</h1>
+
+            {{ form_start(form) }}
+                <div class="row row-cols-1 row-cols-lg-2">
+                    <div class="col col-lg-8">
+                        <div class="form-group">
+                            {{ form_label(form.nomeEmpresa) }}
+                            {{ form_widget(form.nomeEmpresa, {'attr': {'class': 'form-control'}}) }}
+                            <small class="form-text text-muted">{{ form_help(form.nomeEmpresa) }}</small>
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.nomeEmpresa) }}
+                            </div>
+                        </div>
+                        <div class="row row-cols-1 row-cols-md-2">
+                            <div class="col">
+                                <div class="form-group">
+                                    {{ form_label(form.corFundo) }}
+                                    {{ form_widget(form.corFundo, {'attr': {'class': 'form-control'}}) }}
+                                    <small class="form-text text-muted">{{ form_help(form.corFundo) }}</small>
+                                    <div class="invalid-feedback">
+                                        {{ form_errors(form.corFundo) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-lg-3">
+                                <div class="form-group">
+                                    {{ form_label(form.estrategiaGeracaoCor) }}
+                                    {{ form_widget(form.estrategiaGeracaoCor, {'attr': {'class': 'form-control'}}) }}
+                                    <small class="form-text text-muted">{{ form_help(form.estrategiaGeracaoCor) }}</small>
+                                    <div class="invalid-feedback">
+                                        {{ form_errors(form.estrategiaGeracaoCor) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{ form_row(form.corInput) }}
+                        {{ form_row(form.corTexto) }}
+                        {{ form_row(form.corBoxes) }}
+                        {{ form_row(form.corLabel) }}
+                    </div>
+
+
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+                            {{ form_widget(form.arquivoLogo, {'attr': {'class': 'form-control'}}) }}
+                            <small class="form-text text-muted">{{ form_help(form.arquivoLogo) }}</small>
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.arquivoLogo) }}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.endereco) }}
+                    {{ form_widget(form.endereco, {'attr': {'class': 'form-control'}}) }}
+                    <small class="form-text text-muted">{{ form_help(form.endereco) }}</small>
+                    <div class="invalid-feedback">
+                        {{ form_errors(form.endereco) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.cidade) }}
+                    {{ form_widget(form.cidade, {'attr': {'class': 'form-control'}}) }}
+                    <small class="form-text text-muted">{{ form_help(form.cidade) }}</small>
+                    <div class="invalid-feedback">
+                        {{ form_errors(form.cidade) }}
+                    </div>
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col mr-3 mb-3">
+                        {{ form_label(form.uf) }}
+                        {{ form_widget(form.uf, {'attr': {'class': 'form-control'}}) }}
+                        <small class="form-text text-muted">{{ form_help(form.uf) }}</small>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.uf) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group col mb-3">
+                        {{ form_label(form.cep) }}
+                        {{ form_widget(form.cep, {'attr': {'class': 'form-control'}}) }}
+                        <small class="form-text text-muted">{{ form_help(form.cep) }}</small>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.cep) }}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-success">{{ button_label|default('Salvar') }}</button>
+                    </div>
+                    <div class="col">
+                        <a class="btn btn-secondary" href="{{ path('configuracao_show', {'cnpj': configuracao.cnpj}) }}">Cancelar</a>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('configuracao') }}
+{% endblock javascripts %}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Serviços do Agendamento - {% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <h1>Editar Serviços do Agendamento</h1>
+    
+        {{ include('agendamento_servicos/_form.html.twig', {'button_label': 'Atualizar'}) }}
+    </div>
+</div>
+
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-secondary" href="{{ path('agendamentos_index') }}">Cancelar</a>
+        
+            {{ include('agendamento_servicos/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+<h1>Olá!</h1>
+
+<p>{{ agendamento.funcionario.pessoa.nome }} informou que os serviços inclusos no seu agendamento do dia {{ agendamento.horario|date("d \d\e F") }}, às {{ agendamento.horario|date("H:i") }} foram concluídos. Sendo assim, {{ nomeEmpresa }} solicita o pagamento dos serviços prestados, no valor de R${{ valorServicos }}.</p>
+
+<p>Para seu conforto, {{ nomeEmpresa }} aceita cartões {% if pix -%} e Pix {%- endif %}.</p>
+
+<p>Prossiga com o pagamento através do link a seguir:</p>
+
+<a href="{{ urlTarget }}" style="font-size: 1.4rem;">{{ urlTarget }}</a>
+
+<strong>O link é válido até {{ validade|date("d/m/Y H:i") }} e só pode ser usado uma vez.</strong>

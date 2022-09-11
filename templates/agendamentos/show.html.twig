@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Visualizar Agendamento - {% endblock %}
+
+{% block body %}
+
+    <span
+        id="ajax"
+        data-ch="{{ path('agendamentos_index_chegada', {'id': 'valor'}) }}"
+        data-at="{{ path('agendamentos_index_atraso', {'id': 'valor'}) }}"
+        data-ca="{{ path('agendamentos_index_cancela', {'id': 'valor'}) }}"
+        data-fi="{{ path('agendamentos_index_concluir', {'id': 'valor'}) }}"
+        data-pg=""
+        data-rq="{{ path('agendamento_pagamento_request', {'id_agendamento': 'valor'}) }}"
+        data-es="{{ path('agendamento_pagamento_cancela_request_ajax', {'id_agendamento': 'valor'}) }}"
+    >
+    </span>
+
+    <div class="row">
+        <div class="col">
+            <h1>Detalhes do agendamento</h1>
+
+            <table class="table table-stripped table-borderless">
+                <tbody>
+                    <tr>
+                        <th>Horário</th>
+                        <td>{{ agendamento.horario ? agendamento.horario|date('d/m/Y H:i') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Compareceu</th>
+                        <td>{{ agendamento.compareceu ? 'Sim' : 'Não' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Atrasado</th>
+                        <td>{{ agendamento.atrasado ? 'Sim' : 'Não' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cancelado</th>
+                        <td>{{ agendamento.cancelado ? agendamento.cancelado|date('d/m/Y H:i:s') : 'Não' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Executado</th>
+                        <td>{{ agendamento.concluido ? 'Sim' : 'Não' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Pago</th>
+                        <td>{{ agendamento.pagamentoPendente ? 'Não' : 'Sim' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Forma Pagamento</th>
+                        <td>{{ agendamento.formaPagto }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cliente</th>
+                        <td>{{ agendamento.cliente.pessoa.nome }}</td>
+                    </tr>
+                    <tr>
+                        <th>Funcionário</th>
+                        <td>{{ agendamento.funcionario.pessoa.nome }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h2>Serviços agendados</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <ul class="list-group">
+                {% for row in agendamento.servicos %}
+                    <li class="list-group-item">{{ row.servico.servico }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <a class="btn btn-secondary" href="{{ path('agendamentos_index') }}">Voltar</a>
+        </div>
+        <div class="col">
+            <a
+                class="{{ html_classes('btn', 'btn-secondary', {
+                    'disabled': agendamento.compareceu
+                }) }}"
+                {% if not(agendamento.compareceu) -%}
+                    href="{{ path('agendamentos_edit', {'id': agendamento.id}) }}"
+                {%- endif -%}
+            >Editar</a>
+        </div>
+        <div class="col">
+            {{ include('agendamentos/_delete_form.html.twig') }}
+        </div>
+        <div class="col">
+           {{ include('agendamentos/_actions_menu.html.twig') }}
+        </div>
+    </div>
+
+   {{ include('agendamento_pagamento/_reembolso_modal.html.twig') }}
+   {{ include('agendamentos/_cancelling_reason_modal.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('agendamentoShow') }}
+{% endblock javascripts %}

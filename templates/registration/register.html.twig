@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+{% from "macro/_telefone.html.twig" import inputMaskTelefone %}
+{% from "macro/_documentos.html.twig" import inputMaskCpf  %}
+
+{% block title %}Registrar-se no {% endblock %}
+
+{% block body %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">]
+            {{ flashError }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col">
+            <h1>Registro</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+
+            {{ form_start(registrationForm) }}
+
+                <div class="row">
+                    <div class="col">
+                        <h2>Dados sobre a pessoa</h2>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.pessoa.cpf) }}
+                    {{ form_widget(registrationForm.pessoa.cpf, {'attr': {'data-inputmask': inputMaskCpf()}}) }}
+                    <div class="invalid-feedback">
+                        {{ form_errors(registrationForm.pessoa.cpf) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.pessoa.nome) }}
+                    {{ form_widget(registrationForm.pessoa.nome) }}
+                    <div class="invalid-feedback">
+                        {{ form_errors(registrationForm.pessoa.nome) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.pessoa.telefone) }}
+                    {{ form_widget(registrationForm.pessoa.telefone, {'attr': {'data-inputmask': inputMaskTelefone()}}) }}
+                    <div class="invalid-feedback">
+                        {{ form_errors(registrationForm.pessoa.telefone) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.pessoa.endereco) }}
+                    {{ form_widget(registrationForm.pessoa.endereco) }}
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <h2>Dados da conta</h2>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.email) }}
+                    {{ form_widget(registrationForm.email) }}
+                    <div class="invalid-feedback">
+                        {{ form_errors(registrationForm.email) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(registrationForm.nomeUsuario) }}
+                    {{ form_widget(registrationForm.nomeUsuario) }}
+                    <div class="invalid-feedback">
+                        {{ form_errors(registrationForm.nomeUsuario) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.plainPassword) }}
+                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                    <small class="form-text text-muted">{{ form_help(registrationForm.plainPassword) }}</small>
+                    <div class="invalid-feedback">
+                        {{ form_errors(registrationForm.plainPassword) }}
+                    </div>
+                </div>
+                <img class="rounded mr-2 border-dark w-100" style="height: 1px;">
+                <div class="form-group">
+                    {{ form_widget(registrationForm.agreeTerms, {'label_html': true}) }}
+                    <div class="invalid-feedback">
+                        {{ form_errors(registrationForm.agreeTerms) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(registrationForm.captcha) }}
+                        {{ form_errors(registrationForm.captcha) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <a href="{{ path('app_login') }}" class="btn btn-secondary">Voltar</a>
+                    </div>
+
+                    <div class="col">
+                        <button type="submit" class="btn btn-success">Avançar</button>
+                    </div>
+                </div>
+            {{ form_end(registrationForm) }}
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock javascripts %}

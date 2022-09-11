@@ -1,0 +1,69 @@
+{% include "mail_foundation.html.twig" %}
+{# https://get.foundation/emails/docs/inky.html #}
+{% block body %}
+    {% apply inky_to_html|inline_css(source('public/css/foundation_emails.css')) %}
+    <row>
+        <columns><img src="#" alt="logo" class="thumbnail"></columns>
+        <columns>
+            {% set empresa = agendamento.empresa %}
+            <p>{{ empresa.nomeEmpresa }}</p>
+            <small>{{ empresa.endereco }} - {{ empresa.cidade }} - {{ empresa.uf }}</small>
+        </columns>
+    </row>
+    <row>
+        <columns><h1>Comprovante</h1></columns>
+    </row>
+
+    <row>
+        <columns>
+            <p>Você recentemente realizou um pagamento online através do nosso software de agendamentos. Este e-mail serve como um comprovante dos serviços selecionados e a forma de pagamento utilizada por você.</p>
+        </columns>
+    </row>
+
+    <row>
+        <columns>Data</columns>
+        <columns>{{ agendamento.horario|date("d/m/Y H:i") }}</columns>
+    </row>
+    <row>
+        <columns><p>Seu atendimento foi realizado por</p></columns>
+        <columns><p>{{ agendamento.funcionario.pessoa.nome }}</p></columns>
+    </row>
+    <row>
+        <colums>Agendamento #</colums>
+        <columns>{{ agendamento.id }}</columns>
+    </row>
+
+    <h-line></h-line>
+
+    <row>
+        <columns><h3>Serviços solicitados</h3></columns>
+    </row>
+    {% for servico in agendamento.servicos %}
+        <row>
+            <columns>{{ servico.servico.servico }}</columns>
+            <columns>{{ servico.servico.valor }}</columns>
+        </row>
+    {% endfor %}
+
+    <h-line></h-line>
+
+    <row>
+        <columns>Informações de pagamento</columns>
+    </row>
+
+    <row>
+        {% set paymentInfo = agendamento.agendamentoPagamentos %}
+        {% if paymentInfo.formaPagto == 'pix' %}
+            {% set formaPagto = 'PIX' %}
+        {% elseif paymentInfo.formaPagto == 'credit_card' %}
+            {% set formaPagto = 'cartão de crédito' %}
+        {% endif %}
+
+        {% if paymentInfo.processador == 'MERPAGO' %}
+            {% set processorInfo = ', processado pelo Mercado Pago' %}
+        {% endif %}
+
+        <columns><p>Para este pagamento, foi selecionado o pagamento via {{ formaPagto }}</p>{{ processorInfo|default('') }}.</columns>
+    </row>
+    {% endapply %}
+{% endblock body %}

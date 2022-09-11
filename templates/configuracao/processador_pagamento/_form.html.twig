@@ -1,0 +1,99 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col form-group">
+            {{ form_label(form.processador) }}
+            {{ form_widget(form.processador) }}
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <h2>Cartão de crédito</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col form-group">
+            {{ form_label(form.maxParcelasCartao) }}
+            {{ form_widget(form.maxParcelasCartao) }}
+            <div class="invalid-feedback">
+                {{ form_errors(form.maxParcelasCartao) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+			<h3>Política de parcelamento</h3>
+      </div>
+  </div>
+
+    <div class="row">
+		<div class="col" id="politicaParcelamentos" data-prototype="{{ form_widget(form.politicaParcelamento.vars.prototype)|e('html_attr') }}">
+		{% for row in form.politicaParcelamento %}
+			<div class="itemPolitica my-1">
+                <div class="form-row">
+
+                    <div class="form-group col mr-2 mb-2">
+                        {{ form_label(row.startValue) }}
+                        {{ form_widget(row.startValue) }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(row.startValue) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group col mr-2 mb-2">
+                        {{ form_label(row.endValue) }}
+                        {{ form_widget(row.endValue) }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(row.endValue) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group col mr-2 mb-2">
+                        {{ form_label(row.maxInstallments) }}
+                        {{ form_widget(row.maxInstallments) }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(row.maxInstallments) }}
+                        </div>
+                    </div>
+
+                </div>
+			</div>
+		{% endfor %}
+		</div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <h2>Pix</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            {{ form_label(form.tipoChavePix) }}
+            {{ form_widget(form.tipoChavePix) }}
+        </div>
+        <div class="col">
+            {{ form_label(form.pix) }}
+            {{ form_widget(form.pix) }}
+            <div class="invalid-feedback">
+                {{ form_errors(form.pix) }}
+            </div>
+        </div>
+    </div>
+    {{ form_row(form._token) }}
+    <div class="row mt-3">
+        <div class="col">
+            <a href="{{ path('configuracao_show', {'cnpj': epp.empresa.cnpj}) }}" class="btn btn-secondary">Voltar</a>
+        </div>
+
+        <div class="col">
+            <button type="submit" class="btn btn-success">Salvar</button>
+        </div>
+    </div>
+{{ form_end(form, {'render_rest': false}) }}

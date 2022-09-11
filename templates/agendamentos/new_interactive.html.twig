@@ -1,0 +1,249 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Novo agendamento - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1 class="h2">Novo Agendamento</h1>
+        </div>
+    </div>
+    {# Seção de cliente #}
+    {% if is_granted("ROLE_FUNCIONARIO") or is_granted('ROLE_ADMIN') %}
+        <div class="row" id="cli">
+            <div class="col">
+                <h2>Selecione o cliente</h2>
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ri-search-line"></i></span>
+                    </div>
+                    <input type="text" name="buscaCliente" id="buscaCliente" class="form-control" placeholder="Digite um nome para pesquisar...">
+                    <div class="input-group-append">
+                        <a href="{{ path('cliente_new') }}" class="btn btn-outline-info"><i class="ri-user-add-line"></i></a>
+                    </div>
+                </div>
+
+                <ul class="list-group mt-2" id="resultadosAx" data-nome="{{ path('agendamentos_busca_nome', {c: c}) }}">
+
+                </ul>
+                <div class="row mt-3">
+                    <div class="col">
+                        <a href="{{ path('cliente_new') }}" class="btn btn-info"><i class="ri-user-add-line"></i> Incluir novo cliente</a>
+                    </div>
+                    <div class="col">
+                        {{ _self.botaoProximo("Cli") }}
+                    </div>
+                    <div class="col">
+                        {{ _self.botaoCancelar() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {# Seção de serviços #}
+    <div class="row" id="svc" style="display: none;">
+        <div class="col">
+            <h2>Selecione os serviços</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+                {% for row in servicos %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{{ vich_uploader_asset(row, 'arquivoFoto') }}" class="img-fluid rounded card-img-top" alt="">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ row.servico|escape }}</h5>
+                                <p class="card-text">{{ row.descricao|escape }}</p>
+                                <p class="bg-info rounded-pill p-2 text-center no-wrap">R${{ row.valor }}</p>
+                                <input type="checkbox" name="servico" value="{{ row.id }}" id="{{ row.servico|escape }}{{ row.id }}">
+                                <input type="hidden" name="tempo" value="{{ row.duracao }}" id="duracao{{ row.id }}">
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="row mt-3">
+                {% if is_granted("ROLE_FUNCIONARIO") or is_granted('ROLE_ADMIN') %}
+                    <div class="col">
+                        <a class="btn btn-secondary" id="bSvc"><i class="ri-arrow-left-s-line"></i> Anterior</a>
+                    </div>
+                {% endif %}
+                <div class="col">
+                    {{ _self.botaoProximo("Svc") }}
+                </div>
+                <div class="col">
+                    {{ _self.botaoCancelar() }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Seção de funcionários #}
+    <div class="row" id="func" style="display: none;">
+        <div class="col">
+            <h2>Selecione o prestador</h2>
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5">
+                {% for row in funcionarios %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{{ vich_uploader_asset(row, 'arquivoFoto') }}" class="img-fluid rounded-circle card-img-top" alt="">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ row.pessoa.nome }}</h5>
+                                <input type="radio" name="funcionario" value="{{ row.nomeUsuario }}" id="{{ row.pessoa.nome|escape }}{{ row.nomeUsuario }}">
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {{ _self.navigation_buttons("Func") }}
+        </div>
+    </div>
+
+    {# Seção de horário e fechamento #}
+    <div class="row" id="hora" style="display: none;">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <h2>Selecione o horário</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="date" id="date" min="{{ date()|date("Y-m-d") }}">
+                        </div>
+                        <div class="form-group">
+                            <input type="time" id="time" class="d-none">
+                            <select name="timePicker" id="timePicker" class="custom-select" required>
+                            </select>
+                        </div>
+
+                        <span id="target-link"
+                            data-af-link="{{ path('interativo_agendamentos_funcionario', {'f': 'funccpf', 'd':'datanum'}) }}"
+                            data-he-link="{{ path('interativo_horario_empresa', {'ds': 'dian'}) }}"
+                        ></span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="custom-control custom-checkbox">
+                            <input id="pagaPresencial" class="custom-control-input" type="checkbox" name="" value="1">
+                            <label for="pagaPresencial" class="custom-control-label">Pagar no local</label>
+                        </div>
+                    </div>
+
+                    {{ _self.navigation_buttons("Hora") }}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row" id="conclusao" style="display: none;">
+        <div class="col">
+            <h2>Confirme as informações</h2>
+            {{ form_start(form) }}
+
+                {% if is_granted("ROLE_FUNCIONARIO") or is_granted('ROLE_ADMIN') %}
+                    <div class="row">
+                        <div class="col">
+                            <p id="form_nomeCliente"></p>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="form-row">
+                    <div class="form-group col mr-3 mb-3">
+                        {{ form_label(form.horario) }}
+                        {{ form_widget(form.horario, {'attr': {'class': 'form-control mb-5'}}) }}
+                        <small class="form-text text-muted">{{ form_help(form.horario) }}</small>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.horario) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group col mr-3 mb-3">
+                        {{ form_label(form.formaPagto) }}
+                        {{ form_widget(form.formaPagto, {'attr': {'class': 'form-control'}}) }}
+                        <small class="form-text text-muted">{{ form_help(form.formaPagto) }}</small>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.formaPagto) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group col mr-3 mb-3">
+                        <div class="custom-control custom-checkbox">
+                            {{ form_widget(form.pagamentoPresencial) }}
+                            {{ form_label(form.pagamentoPresencial) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.funcionario) }}
+                    {{ form_widget(form.funcionario, {'attr': {'class': 'form-control'}}) }}
+                    <small class="form-text text-muted">{{ form_help(form.funcionario) }}</small>
+                    <div class="invalid-feedback">
+                        {{ form_errors(form.funcionario) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+
+                    </div>
+                </div>
+
+                {{ include('agendamentos/_form_agendamento_servicos.html.twig') }}
+
+                {{ form_row(form._token) }}
+                {{ form_row(form.cpf, {'attr': {'value': id}})}}
+                {{ form_row(form.conclusaoEsperada) }}
+
+                <div class="row">
+                    <div class="col">
+                        <button disabled class="btn btn-secondary"><i class="ri-arrow-left-s-line"></i> Anterior</button>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-success" class="btn"><i class="ri-save-3-line"></i> Concluir e agendar</button>
+                    </div>
+                    <div class="col">
+                        {{ _self.botaoCancelar() }}
+                    </div>
+                </div>
+            {{ form_end(form, {'render_rest': false}) }}
+        </div>
+    </div>
+
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('agendamentoI') }}
+{% endblock javascripts %}
+
+{% macro botaoCancelar() %}
+    <a class="btn btn-secondary" href="{{ path('agendamentos_index') }}"><i class="ri-close-line"></i> Cancelar</a>
+{% endmacro %}
+
+{% macro botaoProximo(id) %}
+    <a class="btn btn-primary" id="n{{ id }}">Continuar <i class="ri-arrow-right-s-line"></i></a>
+{% endmacro %}
+
+{% macro navigation_buttons(id) %}
+    <div class="row mt-3">
+        <div class="col">
+            <a class="btn btn-secondary" id="b{{ id }}"><i class="ri-arrow-left-s-line"></i> Anterior</a>
+        </div>
+        <div class="col">
+            {{ _self.botaoProximo(id) }}
+        </div>
+        <div class="col">
+            {{ _self.botaoCancelar() }}
+        </div>
+    </div>
+{% endmacro %}

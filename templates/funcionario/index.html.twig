@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de funcionários - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1 class="h2">Lista de funcionários</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col"><h2 class="h5">Nome</h2></div>
+        <div class="col"><h2 class="h5">Último acesso</h2></div>
+        <div class="col"></div>
+    </div>
+
+    {% for lt in funcionarios %}
+
+        <div class="row mb-4 funcionarioRegistros">
+            <div class="col">
+                {% if not lt.ativo %}
+                    <i class="ri-spam-2-line text-danger" data-toggle="tooltip" data-placement="right" title="Inativo" data-trigger="click hover"></i>
+                {% endif %}
+                <a href="{{ path('funcionario_show', {'nomeUsuario': lt.cpfFuncionario.nomeUsuario}) }}">{{ lt.cpfFuncionario.pessoa.nome }}</a></div>
+
+            <div class="col">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span><i class="ri-more-fill"></i></span>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="{{ path('funcionario_show', {'nomeUsuario': lt.cpfFuncionario.nomeUsuario}) }}">Detalhes</a>
+                        <a class="dropdown-item" href="{{ path('funcionario_edit', {'nomeUsuario': lt.cpfFuncionario.nomeUsuario}) }}">Editar dados</a>
+                        <a class="dropdown-item" href="{{ path('escala_trabalho_index', {'nomeUsuario': lt.cpfFuncionario.nomeUsuario}) }}">Turno trabalho</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="row">
+            <div class="col">
+                <h2 class="h5">Nenhum funcionário cadastrado.</h2>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" href="{{ path('funcionario_new') }}">Novo</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock javascripts %}

@@ -1,0 +1,89 @@
+{% from 'macro/_documentos.html.twig' import inputMaskCpf %}
+{% from 'macro/_telefone.html.twig' import inputMaskTelefone %}
+{% extends "base.html.twig" %}
+
+{% if titulo is not defined %}
+    {% set titulo = 'Gerenciar Perfil' %}
+{% endif %}
+
+{% block title %}{{ titulo }} - {% endblock title %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>{{ titulo }}</h1>
+        </div>
+    </div>
+
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col">
+                <h2>Dados sobre a pessoa</h2>
+            </div>
+        </div>
+        <div class="form-group row">
+            {{ form_label(form.pessoa.cpf) }}
+            {{ form_widget(form.pessoa.cpf, {'attr': {'data-path': path('pessoa'), 'data-inputmask': inputMaskCpf()}}) }}
+            <div class="invalid-feedback">
+                {{ form_errors(form.pessoa.cpf) }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            {{ form_label(form.pessoa.nome) }}
+            {{ form_widget(form.pessoa.nome) }}
+            <div class="invalid-feedback">
+                {{ form_errors(form.pessoa.nome) }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            {{ form_label(form.pessoa.telefone) }}
+            {{ form_widget(form.pessoa.telefone, {'attr': {'data-inputmask': inputMaskTelefone()}}) }}
+            <div class="invalid-feedback">
+                {{ form_errors(form.pessoa.telefone) }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            {{ form_label(form.pessoa.endereco) }}
+            {{ form_widget(form.pessoa.endereco) }}
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h2>Dados da conta</h2>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+            <div class="invalid-feedback">
+                {{ form_errors(form.email) }}
+            </div>
+        </div>
+        <div class="form-group row">
+            {{ form_label(form.nomeUsuario) }}
+            {{ form_widget(form.nomeUsuario) }}
+            <div class="invalid-feedback">
+                {{ form_errors(form.nomeUsuario) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-success">Salvar</button>
+            </div>
+            <div class="col">
+                <a href="{{ path(voltar_path) }}" id="btn-voltar" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </div>
+    {{ form_end(form) }}
+
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('funcionario_new') }}
+{% endblock javascripts %}

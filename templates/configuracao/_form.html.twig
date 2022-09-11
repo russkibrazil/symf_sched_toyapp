@@ -1,0 +1,232 @@
+{% from 'macro/_cep.html.twig' import inputMaskCep %}
+{% from 'macro/_documentos.html.twig' import inputMaskCnpj %}
+
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-8">
+
+            <div class="form-group">
+                {{ form_label(form.cnpj) }}
+                {{ form_widget(form.cnpj, {'attr': {'class': 'form-control', 'data-inputmask': inputMaskCnpj()}}) }}
+                <small class="form-text text-muted">{{ form_help(form.cnpj) }}</small>
+                <div class="invalid-feedback">
+                    {{ form_errors(form.cnpj) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.nomeEmpresa) }}
+                {{ form_widget(form.nomeEmpresa, {'attr': {'class': 'form-control'}}) }}
+                <small class="form-text text-muted">{{ form_help(form.nomeEmpresa) }}</small>
+                <div class="invalid-feedback">
+                    {{ form_errors(form.nomeEmpresa) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        {{ form_label(form.corFundo) }}
+                        {{ form_widget(form.corFundo, {'attr': {'class': 'form-control'}}) }}
+                        <small class="form-text text-muted">{{ form_help(form.corFundo) }}</small>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.corFundo) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        {{ form_label(form.estrategiaGeracaoCor) }}
+                        {{ form_widget(form.estrategiaGeracaoCor, {'attr': {'class': 'form-control'}}) }}
+                        <small class="form-text text-muted">{{ form_help(form.estrategiaGeracaoCor) }}</small>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.estrategiaGeracaoCor) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ form_row(form.corInput) }}
+            {{ form_row(form.corTexto) }}
+            {{ form_row(form.corBoxes) }}
+            {{ form_row(form.corLabel) }}
+        </div>
+
+
+        <div class="col-4">
+            <div class="form-group">
+                {{ form_widget(form.arquivoLogo, {'attr': {'class': 'form-control'}}) }}
+                <small class="form-text text-muted">{{ form_help(form.arquivoLogo) }}</small>
+                <div class="invalid-feedback">
+                    {{ form_errors(form.arquivoLogo) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col">
+            {{ form_label(form.intervaloBloqueio) }}
+
+            <div class="form-row">
+                <div class="form-group col mb-2">
+                    {{ form_widget(form.qtdeBloqueio, {'attr': {'class': 'form-control-range'}}) }} <span id="range_qtdeBloqueio_value">{{ configuracao.qtdeBloqueio }}</span>
+
+                    <small class="form-text text-muted">{{ form_help(form.qtdeBloqueio) }}</small>
+                    <div class="invalid-feedback">
+                        {{ form_errors(form.qtdeBloqueio) }}
+                    </div>
+                </div>
+
+                <div class="form-group col mr-2 mb-2">
+                    {{ form_widget(form.intervaloBloqueio, {'attr': {'class': 'form-control'}}) }}
+                    <div class="invalid-feedback">
+                        {{ form_errors(form.intervaloBloqueio) }}
+                    </div>
+                </div>
+
+            </div>
+
+            <small class="form-text text-muted">{{ form_help(form.intervaloBloqueio) }}</small>
+        </div>
+    </div>
+
+    <div class="row politicas">
+        <div class="col">
+            {{ form_label(form.intervaloAnalise) }}
+
+            <div class="form-row">
+                <div class="form-group col mb-2">
+                    {{ form_widget(form.qtdeAnalise, {'attr': {'class': 'form-control-range'}}) }} <span id="range_qtdeAnalise_value">{{ configuracao.qtdeAnalise }}</span>
+                    <small class="form-text text-muted">{{ form_help(form.qtdeAnalise) }}</small>
+                    <div class="invalid-feedback">
+                        {{ form_errors(form.qtdeAnalise) }}
+                    </div>
+                </div>
+
+                <div class="form-group col mr-2 mb-2">
+                    {{ form_widget(form.intervaloAnalise, {'attr': {'class': 'form-control'}}) }}
+                    <div class="invalid-feedback">
+                        {{ form_errors(form.intervaloAnalise) }}
+                    </div>
+                </div>
+            </div>
+
+            <small class="form-text text-muted">{{ form_help(form.intervaloAnalise) }}</small>
+        </div>
+
+    </div>
+
+    <div class="form-row politicas">
+        <div class="form-group col mr-2 mb-2">
+            {{ form_label(form.atrasosTolerados) }}
+            {{ form_widget(form.atrasosTolerados, {'attr': {'class': 'form-control-range'}}) }} <span id="range_atrasosTolerados_value">{{ configuracao.atrasosTolerados }}</span>
+            <small class="form-text text-muted">{{ form_help(form.atrasosTolerados) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.atrasosTolerados) }}
+            </div>
+        </div>
+
+        <div class="form-group col mb-2">
+            <div class="form-group">
+                {{ form_label(form.cancelamentosTolerados) }}
+                {{ form_widget(form.cancelamentosTolerados, {'attr': {'class': 'form-control-range'}}) }} <span id="range_cancelamentosTolerados_value">{{ configuracao.cancelamentosTolerados }}</span>
+                <small class="form-text text-muted">{{ form_help(form.cancelamentosTolerados) }}</small>
+                <div class="invalid-feedback">
+                    {{ form_errors(form.cancelamentosTolerados) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.endereco) }}
+        {{ form_widget(form.endereco, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted">{{ form_help(form.endereco) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.endereco) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.cidade) }}
+        {{ form_widget(form.cidade, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted">{{ form_help(form.cidade) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.cidade) }}
+        </div>
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group col mr-3 mb-3">
+            {{ form_label(form.uf) }}
+            {{ form_widget(form.uf, {'attr': {'class': 'form-control'}}) }}
+            <small class="form-text text-muted">{{ form_help(form.uf) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.uf) }}
+            </div>
+        </div>
+
+        <div class="form-group col mb-3">
+            {{ form_label(form.cep) }}
+            {{ form_widget(form.cep, {'attr': {'class': 'form-control', 'data-inputmask': inputMaskCep()}}) }}
+            <small class="form-text text-muted">{{ form_help(form.cep) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.cep) }}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row mt-2">
+        <div class="col">
+            <h2>Horário de funcionamento</h2>
+        </div>
+    </div>
+
+    <div id="horarioTrabalho" data-prototype="{{ form_widget(form.horarioTrabalho.vars.prototype)|e('html_attr') }}">
+        {% for row in form.horarioTrabalho %}
+            <div class="itemHorarioTrabalho my-1">
+                <div class="form-row">
+
+                    <div class="form-group col mr-2 mb-2">
+                        {{ form_label(row.diaSemana) }}
+                        {{ form_widget(row.diaSemana, {'attr': {'class': 'form-control'}}) }}
+                        <small class="form-text text-muted">{{ form_help(row.diaSemana) }}</small>
+                        <div class="invalid-feedback">
+                            {{ form_errors(row.diaSemana) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group col mr-2 mb-2">
+                        {{ form_label(row.horaInicio) }}
+                        {{ form_widget(row.horaInicio) }}
+                        <small class="form-text text-muted">{{ form_help(row.horaInicio) }}</small>
+                        <div class="invalid-feedback">
+                            {{ form_errors(row.horaInicio) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group col mb-2">
+                        {{ form_label(row.horaFim) }}
+                        {{ form_widget(row.horaFim) }}
+                        <small class="form-text text-muted">{{ form_help(row.horaFim) }}</small>
+                        <div class="invalid-feedback">
+                            {{ form_errors(row.horaFim) }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <button type="submit" class="btn btn-success">{{ button_label|default('Salvar') }}</button>
+        </div>
+        <div class="col">
+            <a class="btn btn-secondary" href="{{ path_cancelar }}">Cancelar</a>
+        </div>
+    </div>
+{{ form_end(form) }}

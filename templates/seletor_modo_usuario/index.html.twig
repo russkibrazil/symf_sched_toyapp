@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bem vindo ao {% endblock %}
+
+{% block body %}
+<h1>Selecione o modo de acesso</h1>
+
+<div class="row">
+    <div class="col">
+        <button>Cliente</button>
+    </div>
+    <div class="col">
+        {{ form_start(form)}}
+            {{form_widget(form)}}
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

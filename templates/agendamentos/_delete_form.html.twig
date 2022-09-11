@@ -1,0 +1,7 @@
+<form method="post" action="{{ path('agendamentos_delete', {'id': agendamento.id}) }}" onsubmit="return confirm('Você tem certeza que deseja cancelar esse agendamento?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ agendamento.id) }}">
+    <button type="submit" class="{{ html_classes('btn', 'btn-danger', {
+        'disabled': agendamento.concluido
+    }) }}" {% if agendamento.concluido -%} {{ "disabled" }} {%- endif %}>Cancelar</button>
+</form>

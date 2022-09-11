@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pagamento via PIX {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Pagamento via PIX</h1>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2">
+        <div class="col">
+            <div>
+                {{ form_start(form) }}
+                    <div class="form-row">
+                        <div class="form-group col">
+                            {{ form_label(form.identification_type) }}
+                            {{ form_widget(form.identification_type) }}
+                        </div>
+                        <div class="form-group col">
+                            {{ form_label(form.identification_number) }}
+                            {{ form_widget(form.identification_number) }}
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.name) }}
+                        {{ form_widget(form.name) }}
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.email) }}
+                        {{ form_widget(form.email) }}
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" id="gerar-pix" class="btn btn-secondary" data-path="{{ gen_pix_path }}">Gerar</button>
+                        </div>
+                        <div class="col">
+                            <div class="dropdown">
+                                <button type="button" id="other-payments" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Outros métodos</button>
+                                <div class="dropdown-menu" aria-labelledby="other-payments">
+                                    <button type="button" class="dropdown-item" data-path="{{ cc_pay_path }}">Cartão</button>
+                                    <button type="button" class="dropdown-item active">Pix</button>
+                                    <button type="button" class="dropdown-item disabled">Carteira</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+
+            <div style="display:none;">
+                <button type="button" id="copiar-pix" class="btn btn-secondary">Copiar código</button>
+
+                <a href="{{ path('agendamentos_index') }}" class="btn btn-secondary">Concluir</a>
+            </div>
+        </div>
+
+        <div class="col">
+            <img src="#" alt="" id="qr-pix" class="mw-100">
+            <span>Para gerar o QR Code, preencha os dados.</span>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {{ encore_entry_script_tags('pix_mp') }}
+{% endblock %}

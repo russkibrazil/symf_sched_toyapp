@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detalhes da escala de trabalho - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Detalhes da escala de trabalho</h1>
+                <table class="table  table-stripped table-borderless">
+                    <tbody>
+                        <tr>
+                            <th>Dia Semana</th>
+                            <td>{{ escala_trabalho.diaSemana ? 'Yes' : 'No' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Hora Início</th>
+                            <td>{{ escala_trabalho.horaInicio ? escala_trabalho.horaInicio|date('H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Hora Fim</th>
+                            <td>{{ escala_trabalho.horaFim ? escala_trabalho.horaFim|date('H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Empresa</th>
+                            <td>{{ escala_trabalho.cnpj }}</td>
+                        </tr>
+                        <tr>
+                            <th>Funcionário</th>
+                            <td>{{ escala_trabalho.cpfFuncionario }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" href="{{ path('escala_trabalho_edit', {'diaSemana': escala_trabalho.diaSemana}) }}">Editar</a>
+            <a class="btn btn-secondary" href="{{ path('escala_trabalho_index') }}">Voltar</a>
+            
+            {{ include('escala_trabalho/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+{% endblock %}

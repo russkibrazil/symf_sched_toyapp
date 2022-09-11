@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LocalTrabalho{% endblock %}
+
+{% block body %}
+    <h1>LocalTrabalho</h1>
+<div class="row">
+    <table class="table table-stripped table-borderless">
+        <tbody>
+            <tr>
+                <th>Cnpj</th>
+                <td>{{ local_trabalho.cnpj }}</td>
+            </tr>
+            <tr>
+                <th>CpfFuncionario</th>
+                <td>{{ local_trabalho.cpfFuncionario }}</td>
+            </tr>
+            <tr>
+                <th>Ativo</th>
+                <td>{{ local_trabalho.ativo ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>PrivilegioCaixa</th>
+                <td>{{ local_trabalho.privilegioCaixa ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>PrivilegioPrestador</th>
+                <td>{{ local_trabalho.privilegioPrestador ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>PrivilegioRecepcao</th>
+                <td>{{ local_trabalho.privilegioRecepcao ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>PrivilegioAdministracao</th>
+                <td>{{ local_trabalho.privilegioAdministracao ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <a class="btn btn-secondary" href="{{ path('local_trabalho_index') }}">Voltar</a>
+
+    <a class="btn btn-warning" href="{{ path('local_trabalho_edit', {'cnpj': local_trabalho.cnpj}) }}">Editar</a>
+
+    {{ include('local_trabalho/_delete_form.html.twig') }}
+</div>
+{% endblock %}

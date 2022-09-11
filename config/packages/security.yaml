@@ -1,0 +1,50 @@
+security:
+    enable_authenticator_manager: true
+
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    providers:
+        app_cliente_provider:
+            entity:
+                class: App\Entity\PerfilCliente
+                property: nomeUsuario
+
+        app_funcionario_provider:
+            entity:
+                class: App\Entity\PerfilFuncionario
+                property: nomeUsuario
+
+        united_user_provider:
+            entity:
+                class: App\Entity\Perfil
+                property: nomeUsuario
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            lazy: true
+            provider: united_user_provider
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+            login_throttling:
+                max_attempts: 5
+                interval: '1 hour'
+            logout:
+                path: app_logout
+                target: app_login
+            entry_point: App\Security\Authentication401EntryPoint
+            access_denied_handler: App\Security\AccessDenied403Handler
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_CAIXA, ROLE_PRESTADOR, ROLE_RECEPCAO]
+        ROLE_PROPRIETARIO: ROLE_ADMIN
+
+    access_control:
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }

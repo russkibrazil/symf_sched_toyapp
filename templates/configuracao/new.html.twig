@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Configuracao{% endblock %}
+
+{% block body %}
+    <h1>Create new Configuracao</h1>
+
+    {{ include('configuracao/_form.html.twig') }}
+
+    <a class="btn btn-secondary" href="{{ path('configuracao_index') }}">Cancelar</a>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('configuracao') }}
+{% endblock javascripts %}

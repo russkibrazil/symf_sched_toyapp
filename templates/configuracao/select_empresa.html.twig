@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Selecione a empresa - Iroko</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+    </head>
+
+    <body>
+        <div class="container" style="margin-bottom: 150px;">
+            <div class="row">
+                <div class="col">
+                    <h1>Selecione a empresa</h1>
+                </div>
+            </div>
+
+            {{ form_start(form) }}
+                <div class="form-group row">
+                    {{ form_label(form.empresa) }}
+                    {{ form_widget(form.empresa) }}
+                </div>
+                <div class="row mx-auto">
+                    <div class="col">
+                        <button type="submit" class="btn btn-lg btn-success">Continuar</button>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('agendamento_servicos_delete', {'agendamento': agendamento_servico.agendamento}) }}" onsubmit="return confirm('Você tem certeza que deseja apagar esse item?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ agendamento_servico.agendamento) }}">
+    <button class="btn btn-danger">Apagar</button>
+</form>

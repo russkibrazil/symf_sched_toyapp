@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+
+                <h1 class="h3 mb-3 font-weight-normal">Acessar</h1>
+                <div class="form-group">
+                    <label for="inputUid">Usuário</label>
+                    <input type="text" value="{{ last_username }}" name="_username" id="inputUid" class="form-control" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword">Senha</label>
+                    <input type="password" name="_password" id="inputPassword" class="form-control" required>
+                </div>
+
+                <input type="hidden" name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}"
+                >
+
+                <input type="hidden" name="cnpj" value="{{ cnpj }}">
+
+                {#
+                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                    See https://symfony.com/doc/current/security/remember_me.html
+
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Remember me
+                        </label>
+                    </div>
+                #}
+
+                <button class="btn btn-lg btn-primary" type="submit" data-sitekey="{{ hcaptcha_sitekey }}">
+                    Acessar
+                </button>
+                <small>Este site conta com hCaptcha e, portanto sua <a href="https://hcaptcha.com/privacy">política de privacidade</a> e <a href="https://hcaptcha.com/terms">termos de uso</a> são aplicáveis.</small>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <p>Já é registrado?</p>
+            <a class="btn btn-primary" href="{{ path('connect_facebook_start') }}"><i class="ri-facebook-box-line"></i> Acesse com Facebook</a>
+        </div>
+        <div class="col">
+            <p>Primeira vez?</p>
+            <a class="btn btn-secondary" href="{{ path('app_register') }}"><i class="ri-map-2-line"></i> Cadastre-se</a>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+    <script>
+        function checkhCaptcha(token) {
+            fetch('/hcaptcha', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    'h-captcha-response': token
+                })
+            })
+                .then(
+                    (response) => {
+                        if (response.ok)
+                        document.getElementsByTagName('form')[0].submit();
+                    }
+                );
+        }
+    </script>
+{% endblock javascripts %}

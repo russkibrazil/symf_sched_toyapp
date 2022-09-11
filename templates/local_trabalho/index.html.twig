@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LocalTrabalho index{% endblock %}
+
+{% block body %}
+    <h1>LocalTrabalho index</h1>
+    <div class="row">
+        <table class="table table-stripped table-borderless">
+            <thead>
+                <tr>
+                    <th>Cnpj</th>
+                    <th>CpfFuncionario</th>
+                    <th>Ativo</th>
+                    <th>PrivilegioCaixa</th>
+                    <th>PrivilegioPrestador</th>
+                    <th>PrivilegioRecepcao</th>
+                    <th>PrivilegioAdministracao</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for local_trabalho in local_trabalhos %}
+                <tr>
+                    <td>{{ local_trabalho.cnpj }}</td>
+                    <td>{{ local_trabalho.cpfFuncionario }}</td>
+                    <td>{{ local_trabalho.ativo ? 'Yes' : 'No' }}</td>
+                    <td>{{ local_trabalho.privilegioCaixa ? 'Yes' : 'No' }}</td>
+                    <td>{{ local_trabalho.privilegioPrestador ? 'Yes' : 'No' }}</td>
+                    <td>{{ local_trabalho.privilegioRecepcao ? 'Yes' : 'No' }}</td>
+                    <td>{{ local_trabalho.privilegioAdministracao ? 'Yes' : 'No' }}</td>
+                    <td>
+                        <a class="btn btn-info" href="{{ path('local_trabalho_show', {'cnpj': local_trabalho.cnpj}) }}">Ver</a>
+                        <a class="btn btn-primary" href="{{ path('local_trabalho_edit', {'cnpj': local_trabalho.cnpj}) }}">Editar</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <a class="btn btn-primary" href="{{ path('local_trabalho_new') }}">Novo</a>
+    </div>
+{% endblock %}

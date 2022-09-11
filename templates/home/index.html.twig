@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bem vindo ao {% endblock %}
+
+{% block body %}
+    <h1>Seja bem vindo!</h1>
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <h2>Tarefas rápidas</h2>
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <a class="btn btn-primary mb-3 btn-block" href="{{ path('agendamentos_index') }}">
+                    <i class="ri-calendar-line"></i> Ver meus próximos agendamentos
+                </a>
+                <a class="btn btn-primary mb-3 btn-block" href="{% if is_granted("ROLE_FUNCIONARIO") %}
+                        {{ path('agendamentos_new') }}
+                    {% else %}
+                        {{ path('agendamentos_new_interactive') }}
+                    {% endif %}">
+                    <i class="ri-file-add-line"></i> Incluir um agendamento
+                </a>
+                <a class="btn btn-primary mb-3 btn-block" href="{{ path('servicos_index') }}">
+                    <i class="ri-book-open-line"></i> Ver serviços
+                </a>
+                <a href="{{ path('funcionario_index')}}" class="btn btn-primary mb-3 btn-block">
+                    <i class="ri-group-line"></i> Ver equipe
+                </a>
+                {# <a class="btn btn-block" href="">Conheça mais sobre essa empresa</a> #}
+            </div>
+        </div>
+    {% else %}
+        <a class="btn btn-warning btn-lg btn-block" href="{{ path('app_login') }}"><i class="ri-error-warning-line"></i> Para realizar os agendamentos, acesse com o seu e-mail e senha.</a>
+    {% endif %}
+{% endblock %}

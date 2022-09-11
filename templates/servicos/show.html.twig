@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Serviços - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Detalhes do serviço</h1>
+            <table class="table table-stripped table-borderless">
+                <tbody>
+                    <tr>
+                        <th>Serviço</th>
+                        <td>{{ servico.servico }}</td>
+                    </tr>
+                    <tr>
+                        <th>Descriçãoo</th>
+                        <td>{{ servico.descricao }}</td>
+                    </tr>
+                    <tr>
+                        <th>Valor</th>
+                        <td>{{ servico.valor }}</td>
+                    </tr>
+                    <tr>
+                        <th>Foto</th>
+                        <td><img src="{{ vich_uploader_asset(servico, 'arquivoFoto') }}" alt="" class="rounded mw-100"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary mr-2" href="{{ path('servicos_edit', {'id': servico.id}) }}">Editar</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-secondary mr-2" href="{{ path('servicos_index') }}">Voltar</a>
+        </div>
+        <div class="col">
+            {{ include('servicos/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

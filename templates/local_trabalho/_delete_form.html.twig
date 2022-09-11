@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('local_trabalho_delete', {'cnpj': local_trabalho.cnpj.cnpj, 'nomeUsuario': local_trabalho.cpfFuncionario.nomeUsuario}) }}" onsubmit="return confirm('Você tem certeza que deseja apagar esse item?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ local_trabalho.cnpj.cnpj) }}">
+    <button class="btn btn-danger">Apagar</button>
+</form>

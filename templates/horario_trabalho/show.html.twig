@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detahes do horário de trabalho - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Detalhes do horário de trabalho</h1>
+            <table class="table table-stripped table-borderless">
+                <tbody>
+                    <tr>
+                        <th>Dia Semana</th>
+                        <td>{{ horario_trabalho.diaSemana }}</td>
+                    </tr>
+                    <tr>
+                        <th>Hora Início</th>
+                        <td>{{ horario_trabalho.horaInicio ? horario_trabalho.horaInicio|date('H:i:s') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Hora Fim</th>
+                        <td>{{ horario_trabalho.horaFim ? horario_trabalho.horaFim|date('H:i:s') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Empresa</th>
+                        <td>{{ horario_trabalho.empresa }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" href="{{ path('horario_trabalho_edit', {'diaSemana': horario_trabalho.diaSemana}) }}">Editar</a>
+            <a class="btn btn-secondary" href="{{ path('horario_trabalho_index') }}">Voltar</a>
+            
+            {{ include('horario_trabalho/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

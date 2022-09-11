@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('funcionario_delete', {'nomeUsuario': funcionario.nomeUsuario}) }}" onsubmit="return confirm('Você tem certeza que deseja apagar esse item?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ funcionario.nomeUsuario) }}">
+    <button class="btn btn-danger">Apagar</button>
+</form>

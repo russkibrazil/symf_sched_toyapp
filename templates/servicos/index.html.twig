@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Serviços - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Serviços</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive">
+
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>Serviço</th>
+                            <th>Valor</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for servico in servicos %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('servicos_show', {'id': servico.id}) }}">{{ servico.servico }}</a>
+                            </td>
+                            <td>R$ {{ servico.valor }}</td>
+                            <td>
+                                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span><i class="ri-more-fill"></i></span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="{{ path('servicos_show', {'id': servico.id}) }}">Ver</a>
+                                    <a class="dropdown-item" href="{{ path('servicos_edit', {'id': servico.id}) }}">Editar</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">Nenhum serviço cadastrado</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+    <a class="btn btn-primary" href="{{ path('servicos_new') }}">Novo</a>
+{% endblock %}

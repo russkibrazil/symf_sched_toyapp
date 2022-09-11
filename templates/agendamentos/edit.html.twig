@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar agendamento - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Editar agendamento</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ include('agendamentos/_form.html.twig', {'button_label': 'Atualizar'}) }}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('agendamento') }}
+{% endblock javascripts %}

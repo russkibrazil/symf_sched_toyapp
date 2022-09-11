@@ -1,0 +1,107 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Políticas de Bloqueio de Usuários -{% endblock title %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1 class="h2">Bloqueio de Usuários</h1>
+            <p>Estas configurações servem para diminuir a preferência dos usuários que não são pontuais nos agendamentos</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col">
+                    {{ form_label(form.intervaloBloqueio) }}
+
+                    <div class="form-row">
+                        <div class="form-group col mb-2">
+                            {{ form_widget(form.qtdeBloqueio, {'attr': {'class': 'form-control-range'}}) }} <span id="range_qtdeBloqueio_value">{{ configuracao.qtdeBloqueio }}</span>
+
+                            <small class="form-text text-muted">{{ form_help(form.qtdeBloqueio) }}</small>
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.qtdeBloqueio) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group col mr-2 mb-2">
+                            {{ form_widget(form.intervaloBloqueio, {'attr': {'class': 'form-control'}}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.intervaloBloqueio) }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <small class="form-text text-muted">{{ form_help(form.intervaloBloqueio) }}</small>
+                </div>
+            </div>
+
+            <div class="row politicas">
+                <div class="col">
+                    {{ form_label(form.intervaloAnalise) }}
+
+                    <div class="form-row">
+                        <div class="form-group col mb-2">
+                            {{ form_widget(form.qtdeAnalise, {'attr': {'class': 'form-control-range'}}) }} <span id="range_qtdeAnalise_value">{{ configuracao.qtdeAnalise }}</span>
+                            <small class="form-text text-muted">{{ form_help(form.qtdeAnalise) }}</small>
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.qtdeAnalise) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group col mr-2 mb-2">
+                            {{ form_widget(form.intervaloAnalise, {'attr': {'class': 'form-control'}}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.intervaloAnalise) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <small class="form-text text-muted">{{ form_help(form.intervaloAnalise) }}</small>
+                </div>
+
+            </div>
+
+
+                <div class="form-row politicas">
+                    <div class="form-group col mr-2 mb-2">
+                        {{ form_label(form.atrasosTolerados) }}
+                        {{ form_widget(form.atrasosTolerados, {'attr': {'class': 'form-control-range'}}) }} <span id="range_atrasosTolerados_value">{{ configuracao.atrasosTolerados }}</span>
+                        <small class="form-text text-muted">{{ form_help(form.atrasosTolerados) }}</small>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.atrasosTolerados) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group col mb-2">
+                        <div class="form-group">
+                            {{ form_label(form.cancelamentosTolerados) }}
+                            {{ form_widget(form.cancelamentosTolerados, {'attr': {'class': 'form-control-range'}}) }} <span id="range_cancelamentosTolerados_value">{{ configuracao.cancelamentosTolerados }}</span>
+                            <small class="form-text text-muted">{{ form_help(form.cancelamentosTolerados) }}</small>
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.cancelamentosTolerados) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-success">{{ button_label|default('Salvar') }}</button>
+                    </div>
+                    <div class="col">
+                        <a href="{{ path('configuracao_show', {'cnpj': configuracao.cnpj})}}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('configuracaoBloqueio')}}
+{% endblock javascripts %}

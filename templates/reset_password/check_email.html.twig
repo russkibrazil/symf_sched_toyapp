@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Email de recuperação enviado - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <p>Foi enviado um e-mail que contém o link que você pode clicar para redefinir sua senha. A validade deste link é de {{ tokenLifetime|date('g') }} horas.</p>
+            <p>Caso você não receba o email, confira a sua pasta de spam ou <a href="{{ path('app_forgot_password_request') }}">peça outro email</a>.</p>
+        </div>
+    </div>
+{% endblock %}

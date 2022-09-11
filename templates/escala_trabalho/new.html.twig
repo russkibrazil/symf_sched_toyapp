@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nova Escala de Trabalho - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Criar Escala de Trabalho</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{ include('escala_trabalho/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

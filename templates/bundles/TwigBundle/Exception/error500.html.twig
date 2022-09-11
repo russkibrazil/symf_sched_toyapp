@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col">
+        <h1 class="h3">Encontramos um problema técnico</h1>
+    
+        <p>Apesar de todo cuidado, encontramos um erro que impede que você continue sua ação.</p>
+        <p>Estamos trabalhando para reparar o mais rápido possível. Tente novamente mais tarde.</p>
+        <a href="{{ path('home') }}" class="btn btn-secondary btn-block">Clique aqui para ir ao início.</a>
+    </div>
+</div>
+{% endblock body %}

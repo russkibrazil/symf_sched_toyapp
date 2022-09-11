@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('escala_trabalho_delete', {'diaSemana': escala_trabalho.diaSemana, 'nomeUsuario': escala_trabalho.cpfFuncionario.nomeUsuario, 'cnpj': escala_trabalho.cnpj.cnpj}) }}" onsubmit="return confirm('Você tem certeza que deseja apagar esse item?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ escala_trabalho.diaSemana) }}">
+    <button class="btn btn-danger">Apagar</button>
+</form>

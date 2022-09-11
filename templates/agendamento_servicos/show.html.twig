@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de serviços do agendamento - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Lista de serviços do agendamento</h1>
+            <table class="table table-stripped table-borderless">
+                <tbody>
+                    <tr>
+                        <th>Agendamento</th>
+                        <td>{{ agendamento_servico.agendamento }}</td>
+                    </tr>
+                    <tr>
+                        <th>Serviço</th>
+                        <td>{{ agendamento_servico.servico }}</td>
+                    </tr>
+                    <tr>
+                        <th>Avaliação Cliente</th>
+                        <td>{{ agendamento_servico.avaliacaoCliente }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<div class="row">
+    <div class="col">
+        <a class="btn btn-primary" href="{{ path('agendamento_servicos_edit', {'agendamento': agendamento_servico.agendamento}) }}">Editar</a>
+        <a class="btn btn-secondary" href="{{ path('agendamento_servicos_index') }}">Voltar</a>
+        
+        {{ include('agendamento_servicos/_delete_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}

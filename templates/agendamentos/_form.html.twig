@@ -1,0 +1,77 @@
+{{ form_start(form) }}
+
+    <div class="form-group">
+        {{ form_label(form.pesquisa_cliente) }}
+
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ri-search-line"></i></span>
+            </div>
+            {{ form_widget(form.pesquisa_cliente, {'attr': {'class': 'form-control', 'placeholder': "Digite um nome para pesquisar..."}}) }}
+            {% if is_granted("ROLE_RECEPCAO") %}
+                <div class="input-group-append">
+                    <a class="btn btn-secondary" href="{{ path('cliente_new') }}">Novo cliente</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <small class="form-text text-muted">{{ form_help(form.pesquisa_cliente) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.pesquisa_cliente) }}
+        </div>
+    </div>
+
+    <ul class="list-group" id="resultadosAx" data-nome="{{ path('agendamentos_busca_nome', {c: c}) }}">
+
+    </ul>
+
+    <div class="form-group">
+        {{ form_label(form.funcionario) }}
+        {{ form_widget(form.funcionario, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted">{{ form_help(form.funcionario) }}</small>
+        <div class="invalid-feedback">
+            {{ form_errors(form.funcionario) }}
+        </div>
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group col mr-3 mb-3">
+            {{ form_label(form.horario) }}
+            {{ form_widget(form.horario, {'attr': {'class': 'form-control mb-5'}}) }}
+            <small class="form-text text-muted">{{ form_help(form.horario) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.horario) }}
+            </div>
+        </div>
+
+        <div class="form-group col mr-3 mb-3">
+            {{ form_label(form.formaPagto) }}
+            {{ form_widget(form.formaPagto, {'attr': {'class': 'form-control'}}) }}
+            <small class="form-text text-muted">{{ form_help(form.formaPagto) }}</small>
+            <div class="invalid-feedback">
+                {{ form_errors(form.formaPagto) }}
+            </div>
+        </div>
+
+        <div class="form-group col mr-3 mb-3">
+            {{ form_widget(form.pagamentoPresencial) }}
+            {{ form_label(form.pagamentoPresencial) }}
+        </div>
+
+    </div>
+
+    {{ include('agendamentos/_form_agendamento_servicos.html.twig') }}
+
+    {{ form_row(form._token) }}
+    {{ form_row(form.cpf, {'attr': {'value': id}})}}
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-success" type="submit">{{ button_label|default('Salvar') }}</button>
+        </div>
+        <div class="col">
+            <a class="btn btn-secondary" href="{{ path('agendamentos_index') }}">Voltar</a>
+        </div>
+    </div>
+{{ form_end(form, {'render_rest': false}) }}

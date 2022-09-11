@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Configurar processador pagamento
+{% endblock title %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Configurar processador pagamento</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{ include('configuracao/processador_pagamento/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('empresaPagamentoProcessador') }}
+{% endblock javascripts %}

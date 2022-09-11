@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detalhes do funcionário - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Detalhes do funcionário</h1>
+            <table class="table table-stripped table-borderless">
+                <tbody>
+                    <tr>
+                        <th>Nome</th>
+                        <td>{{ funcionario.pessoa.nome }}</td>
+                    </tr>
+                    <tr>
+                        <th>Telefone</th>
+                        <td>{{ funcionario.pessoa.telefone }}</td>
+                    </tr>
+                    {# <tr>
+                        <th>Última vez online</th>
+                        <td>{{ funcionario.ultimoLogin ? funcionario.ultimoLogin|date('d/m/Y H:i:s') : '' }}</td>
+                    </tr> #}
+                    <tr>
+                        <th>Foto</th>
+                        <td><img src="{{ vich_uploader_asset(funcionario, 'arquivoFoto') }}" alt="" class="rounded-circle mw-100"></td>
+                    </tr>
+                    <tr>
+                        <th>Endereço</th>
+                        <td>{{ funcionario.pessoa.endereco }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <h2>Vínculo</h2>
+
+            {% if funcionario.funcionarioLocalTrabalho is not empty %}
+                <p>{{ funcionario.funcionarioLocalTrabalho.cnpj.nomeEmpresa }}</p>
+
+                <div id="detail">
+                    <div>
+                        <ul class="list-group list-group-flush mb-2">
+                            <li class="list-group-item">
+                                {%- for p in funcionario.funcionarioLocalTrabalho.privilegios -%}
+                                    {{ p }},
+                                {%- endfor -%}
+                            </li>
+
+                        {% for horario in funcionario.funcionarioTurnoTrabalho %}
+                            <li class="list-group-item">{{ horario.diaSemana }} : {{ horario.horaInicio|date("H:i") }} - {{ horario.horaFim|date("H:i") }}</li>
+                        {% endfor %}
+
+                        </ul>
+                    <a href="{{ path('local_trabalho_edit', {'nomeUsuario': funcionario.nomeUsuario, 'cnpj': funcionario.funcionarioLocalTrabalho.cnpj.cnpj}) }}" class="btn btn-primary btn-sm">Editar privilegios</a>
+                    <a href="{{ path('escala_trabalho_index', {'nomeUsuario': funcionario.nomeUsuario, 'cnpj': funcionario.funcionarioLocalTrabalho.cnpj.cnpj}) }}" class="btn btn-primary btn-sm">Editar Horários</a>
+                    </div>
+                </div>
+            {% else %}
+                <p>Não foi encontrado um local de trabalho para este funcionário</p>
+                <a href="{{ path('local_trabalho_new', {'nomeUsuario': funcionario.nomeUsuario}) }}" class="btn btn-primary">Incluir Local Trabalho</a>
+            {% endif %}
+
+        </div>
+    </div>
+
+    {# <div class="row">
+        <div class="col">
+            <h2>Vínculos</h2>
+
+            {% if funcionario.funcionarioLocalTrabalho|length > 0 %}
+                <div class="accordion" id="accordion">
+                    {% for row in funcionario.funcionarioLocalTrabalho %}
+                        <div class="card">
+                            <div class="card-header" id="header-{{ loop.index }}">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#detail-{{ loop.index }}"
+                                        aria-expanded="true"
+                                        aria-controls="detail-{{ loop.index }}"
+                                    >
+                                        {{ row.cnpj.nomeEmpresa }}
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div id="detail-{{ loop.index }}" class="collapse" aria-labelledby="header-{{ loop.index }}" data-parent="#accordion">
+                                <div class="card-body">
+                                    {% set horarios = funcionario.funcionarioTurnoTrabalho|filter(v => v.cnpj == row.cnpj) %}
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            {%- for p in row.privilegios -%}
+                                                {{ p }},
+                                            {%- endfor -%}
+                                        </li>
+
+                                    {% for horario in horarios %}
+                                        <li class="list-group-item">{{ horario.diaSemana }} : {{ horario.horaInicio|date("H:i") }} - {{ horario.horaFim|date("H:i") }}</li>
+                                    {% endfor %}
+
+                                    </ul>
+                                <a href="{{ path('local_trabalho_edit', {'nomeUsuario': funcionario.nomeUsuario, 'cnpj': row.cnpj.cnpj}) }}" class="btn btn-primary btn-sm">Editar privilegios</a>
+                                <a href="{{ path('escala_trabalho_index', {'nomeUsuario': funcionario.nomeUsuario, 'cnpj': row.cnpj.cnpj}) }}" class="btn btn-primary btn-sm">Editar Horários</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+#}
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-secondary" href="{{ path('funcionario_index') }}">Voltar</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-primary" href="{{ path('funcionario_edit', {'nomeUsuario': funcionario.nomeUsuario}) }}">Editar dados</a>
+        </div>
+
+        {% if is_granted("ROLE_ADMIN") %}
+            <div class="col">
+                {{ include('funcionario/_delete_form.html.twig') }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock javascripts %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Novo pagamento ao agendamento - {% endblock %}
+
+{% block body %}
+    <h1>Inserir novo pagamento</h1>
+
+    {{ include('agendamento_pagamento/_form.html.twig') }}
+
+    <a class="btn btn-secondary" href="{{ path('agendamentos_index') }}">Voltar</a>
+{% endblock %}

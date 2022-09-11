@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Serviços - {% endblock %}
+
+{% block body %}
+    <div class="row mb-3">
+        <div class="col">
+            <h1>Lista de Serviços</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+
+            <div class="card-group">
+                {% for row in servicos %}
+                    <div class="card">
+                        <img src="{{ vich_uploader_asset(row, 'arquivoFoto') }}" class="img-fluid rounded card-img-top" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ row.servico }}</h5>
+                            <p>{{ row.descricao }}</p>
+                            <p>Duração: {{ row.duracao }}</p>
+                            <p>R$ {{ row.valor }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <a href="{{ path('home') }}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,103 @@
+<div class="row sticky-top bg-dark">
+
+    <div class="col-10 col-lg-1">
+        {% if app.session.get('logo') is not null %}
+            <img src="{{ asset(app.session.get('logo')) }}" alt="" height="40px" loading="lazy">
+        {% endif %}
+    </div>
+
+    <div class="col d-none d-lg-flex">
+        <ul class="nav nav-pills nav-justified">
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{{ path('home') }}"><i class="ri-home-line ri-xl"></i><br>Home</a>
+            </li>
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <li class="nav-item">
+
+                    <div class="dropdown">
+                        <button id="agendaDropdown" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ri-article-line ri-xl"></i><br>Agenda</button>
+                        <div class="dropdown-menu" aria-labelledby="agendaDropdown">
+                            <a class="dropdown-item" href="{{ path('agendamentos_index') }}">Futuros</a>
+                            <a class="dropdown-item" href="{{ path('agendamentos_pendentes') }}">Pendentes</a>
+                            <a class="dropdown-item" href="{{ path('agendamentos_pagos') }}">Pagos</a>
+                        </div>
+                    </div>
+                </li>
+
+                {# <li class="nav-item">
+                    <a class="nav-link text-white" href="#"><i class="ri-questionnaire-line ri-xl"></i><br>Sobre</a>
+                </li> #}
+
+                <li class="nav-item">
+                    <div class="dropdown">
+                        {% set pathPerfil = 'cliente_show' %}
+                        {% if is_granted('ROLE_FUNCIONARIO') or is_granted('ROLE_ADMIN') %}
+                            {% set pathPerfil = 'funcionario_show' %}
+                        {% endif %}
+
+                        <button
+                            id="profile-mgr"
+                            class="btn btn-dark dropdown-toggle"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                        >
+                            {% if app.user.foto is empty %}
+                                <i class="ri-user-settings-line ri-xl"></i>
+                            {% else %}
+                                <img
+                                    src="{{ vich_uploader_asset(app.user, 'arquivoFoto') }}"
+                                    alt=""
+                                    class="rounded-circle border"
+                                    style="width: 32px;"
+                                    loading="lazy"
+                                />
+                            {% endif %}
+                            <br>
+                            <span>Perfil</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="profile-mgr">
+                            <a
+                                class="dropdown-item"
+                                href="{{ path(pathPerfil, {'nomeUsuario': app.user.nomeUsuario}) }}"
+                            >
+                                Perfil
+                            </a>
+
+                            {% if is_granted('ROLE_USER') or is_granted('ROLE_PROPRIETARIO') %}
+                            <a class="dropdown-item" href="{{ path('empresa_selecao_inicial') }}">
+                            {% else %}
+                            <a class="dropdown-item disabled">
+                            {% endif %}
+                                Alterar empresa
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a class="dropdown-item" href="{{ path('app_logout') }}"><i class="ri-logout-box-r-line"></i> Sair</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ path('funcionario_index') }}" class="nav-link text-white"><i class="ri-shirt-line ri-xl"></i><br>Funcionários</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ path('servicos_index') }}"><i class="ri-service-line ri-xl"></i><br>Serviços</a>
+                </li>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('configuracao_show', {'cnpj': app.request.cookies.get('cnpj') } ) }}"><i class="ri-building-line ri-xl"></i><br>Minha empresa</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col-1 d-lg-none">
+        {# INSERIR MENU "MAIS" #}
+        <p></p>
+    </div>
+
+</div>

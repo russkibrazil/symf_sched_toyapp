@@ -1,0 +1,10 @@
+{% set reasonSplit = cancelReason|split(' - ') %}
+
+<h1>Um agendamento foi cancelado</h1>
+<p>O agendamento no horário {{ schedule|date("m/d/Y H:i") }} foi cancelado {{ whoCanceled }}. </p>
+<p>O cancelamento foi realizado devido a  {{ reasonSplit[0] }}</p>
+{% if reasonSplit|length > 1 %}
+    <p>Justificado por {{ reasonSplit[1] }}</p>
+{% endif %}
+
+<a href="{{ path('agendamentos_index') }}">Clique para ver a lista de compromissos</a>

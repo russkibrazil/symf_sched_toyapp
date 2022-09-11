@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Serviços do Agendamento - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Lista de Serviços do Agendamento</h1>
+                <table class="table table-stripped table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">Serviço</th>
+                            <th scope="col">Avaliação Cliente</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for agendamento_servico in agendamento_servicos %}
+                        <tr>
+                            <td>{{ agendamento_servico.servico.servico }}</td>
+                            <td> {% if agendamento_servico.avaliacaoCliente >= 0 %}
+                                {{ agendamento_servico.avaliacaoCliente }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                            </td>
+                            <td>
+                                {% if date() < date(agendamento_servico.agendamento.horario) %}
+                                    <a class="btn btn-danger" href="{{ path('agendamento_servicos_delete', {'agendamento': agendamento_servico.agendamento.id, 'servico': agendamento_servico.servico.id}) }}">Apagar</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {# <a class="btn btn-primary" href="{{ path('agendamento_servicos_new') }}">Novo</a> #}
+        </div>
+    </div>
+{% endblock %}

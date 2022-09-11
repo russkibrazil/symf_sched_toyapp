@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Local de Trabalho - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Editar Local de trabalho</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ include('local_trabalho/_form.html.twig', {'button_label': 'Atualizar'}) }}
+        </div>
+    </div>
+{% endblock %}

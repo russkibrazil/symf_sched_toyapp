@@ -1,0 +1,106 @@
+{% set hasPagamentos = agendamento.agendamentoPagamentos.first is not empty %}
+{% set hasAvailablePagamentos, isRefundingElegible = false, false %}
+{% if hasPagamentos %}
+    {% set hasAvailablePagamentos = agendamento.agendamentoPagamentos.first.statusAtual in ['pending', 'in_process'] %}
+    {% set isRefundingElegible = date(agendamento.agendamentoPagamentos.first.data) > date('-6months') %}
+{% endif %}
+
+<div class="btn-group">
+    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span><i class="ri-more-fill"></i></span>
+    </button>
+
+    <div
+        class="dropdown-menu dropdown-menu-right"
+        data-id="{{ agendamento.id }}"
+        data-paytype="{% if agendamento.pagamentoPresencial -%} pg {% else -%} rq {%- endif %}"
+    >
+
+        <a
+            class="dropdown-item"
+            href="{{ path('agendamentos_show', {'id': agendamento.id}) }}"
+        >Ver</a>
+
+        <a
+            {% if not agendamento.compareceu and agendamento.cancelado is null %}
+                class="dropdown-item"
+                href="{{ path('agendamentos_edit', {'id': agendamento.id}) }}"
+            {% else %}
+                class="dropdown-item disabled"
+            {% endif %}
+        >Editar</a>
+
+        <div class="dropdown-divider"></div>
+
+        <button
+            class="{{ html_classes('dropdown-item', 'btn-chegada', {
+                'disabled': ((is_granted("ROLE_RECEPCAO") or is_granted("ROLE_PRESTADOR")) and (agendamento.compareceu or agendamento.cancelado is not null))
+            }) }}"
+            data-toast="{{agendamento.horario|date('d/m/y H:i')}} chegou"
+            data-pagamento="{{ path('agendamento_pagamento_ajax', {'id_agendamento': agendamento.id}) }}"
+        >Chegou</button>
+
+        <button
+            class="{{ html_classes('dropdown-item', 'btn-atraso', {
+                'disabled': (agendamento.atrasado or agendamento.compareceu or agendamento.cancelado is not null)
+            }) }}"
+            data-toast="{{agendamento.horario|date('d/m/y H:i')}} marcado como atrasado"
+        >
+        {%- if agendamento.atrasado -%}
+            Atrasado
+        {%- else -%}
+            Atrasar
+        {%- endif %}
+        </button>
+
+        <button
+            type="button"
+            class="{{ html_classes('dropdown-item', 'btn-cancela', {
+                'disabled': (agendamento.compareceu or agendamento.cancelado is not null)
+            }) }}"
+            data-toggle="modal"
+            data-target="#cancel-reason"
+        >Desistir</button>
+
+        {# TODO alterar agendamento.concluido para ?dateime #}
+        <button
+            type="button"
+            class="{{ html_classes('dropdown-item', 'btn-concluir', {
+                'disabled': is_granted("ROLE_PRESTADOR") and (agendamento.concluido or not(agendamento.compareceu))
+            }) }}"
+        >Concluir</button>
+
+        <button
+            {% if agendamento.pagamentoPresencial -%}
+                data-path="{{ path('agendamento_pagamento_ajax', {'id_agendamento': agendamento.id}) }}"
+                data-toggle="modal"
+                data-target="#modalPagamento"
+            {%- else -%}
+                data-path="{{ path('agendamento_pagamento_request', {'id_agendamento': agendamento.id}) }}"
+            {%- endif %}
+            class="{{ html_classes('dropdown-item', 'btn-pagar', {
+                'disabled': not((is_granted("ROLE_CAIXA") or is_granted("ROLE_ADMIN")) and agendamento.concluido and agendamento.pagamentoPendente)
+            }) }}"
+        >Pagar</button>
+
+        {% if not(is_granted("ROLE_USER")) %}
+            <div class="dropdown-divider"></div>
+
+            <button
+                type="button"
+                class="{{ html_classes('dropdown-item', 'btn-estorno', {
+                    'disabled': not((is_granted("ROLE_CAIXA") or is_granted("ROLE_ADMIN")) and hasAvailablePagamentos) and agendamento.pagamentoPresencial
+                }) }}" {# and date(agendamento.horario) < date('-30days') é uma subcondicional #}
+                >Estornar</button>
+
+            <button
+                type="button"
+                class="{{ html_classes('dropdown-item', 'btn-reembolsar', {
+                    'disabled': not((is_granted("ROLE_CAIXA") or is_granted("ROLE_ADMIN")) and isRefundingElegible) and agendamento.pagamentoPendente
+                }) }}"
+                data-toggle="modal"
+                data-target="#reembolso-modal"
+            >Reembolsar</button>
+        {% endif %}
+    </div>
+</div>

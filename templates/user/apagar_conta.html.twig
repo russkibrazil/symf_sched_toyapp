@@ -1,0 +1,73 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Apagar conta
+{% endblock title %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Apagar conta</h1>
+        </div>
+    </div>
+
+	<div class="row my-5">
+		<div class="col">
+			<div class="alert alert-danger" role="alert">
+				<h2 class="h3"><i class="ri-information-line"></i> Aviso</h2>
+				<p>Este processo não pode ser revertido uma vez iniciado.</p>
+                <p>Este processo apaga permanentemente as informações que você gerou neste serviço que são diretamente vinculadas à você, exceto os registros de pagamento que forem necessários ao fisco.</p>
+                <p>Seu acesso à plataforma será revogado.</p>
+			</div>
+		</div>
+	</div>
+
+    {{ form_start(form) }}
+
+        <div class="form-row">
+            <div class="form-group col">
+                {{ form_widget(form.email, {'attr': {'placeholder': form.email.vars.label}}) }}
+                <div class="invalid-feedback">
+                    <small>{{ form_errors(form.email) }}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col">
+                {{ form_widget(form.senha.first, {'attr': {'placeholder': form.senha.first.vars.label}}) }}
+                <div class="invalid-feedback">
+                    <small>{{ form_errors(form.senha.first) }}</small>
+                </div>
+                <div class="invalid-feedback">
+                    <small>{{ form_errors(form.senha) }}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col">
+                {{ form_widget(form.senha.second, {'attr': {'placeholder': form.senha.second.vars.label}}) }}
+                <div class="invalid-feedback">
+                    <small>{{ form_errors(form.senha.second) }}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col">
+                {{ form_widget(form.ciente, {'attr': {'placeholder': form.ciente.vars.label}}) }}
+            </div>
+        </div>
+
+        <div class="row text-center mt-3">
+            <div class="col">
+                <button type="submit" class="btn btn-danger btn-sm">Confirmar Exclusão</button>
+            </div>
+            <div class="col">
+                <a href="{{ path('perfil') }}" class="btn btn-secondary btn-lg">Cancelar</a>
+            </div>
+        </div>
+    {{ form_end(form) }}
+
+{% endblock body %}

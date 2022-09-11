@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detalhes do cliente - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Detalhes do cliente</h1>
+
+            <table class="table table-stripped table-borderless">
+                <tbody>
+                    <tr>
+                        <th>Nome</th>
+                        <td>{{ cliente.pessoa.nome }}</td>
+                    </tr>
+                    <tr>
+                        <th>E-mail</th>
+                        <td>{{ cliente.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Telefone</th>
+                        <td>{{ cliente.pessoa.telefone }}</td>
+                    <tr>
+                        <th>Endereço</th>
+                        <td>{{ cliente.pessoa.endereco }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-secondary" href="{{ path('home') }}">Voltar</a>
+        </div>
+        <div class="col">
+            <a href="{{ path('cliente_edit', {'nomeUsuario': cliente.nomeUsuario}) }}" class="btn btn-primary">Editar</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h2>Gestão da conta</h2>
+            <a class="btn btn-danger" href="{{ path('cliente_apagar_conta', {'nomeUsuario': cliente.nomeUsuario}) }}">Fechar esta conta</a>
+        </div>
+    </div>
+
+{% endblock %}

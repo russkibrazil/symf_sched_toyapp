@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Novo Agendamento - {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>Criar um agendamento</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{ include('agendamentos/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('agendamento') }}
+{% endblock javascripts %}
